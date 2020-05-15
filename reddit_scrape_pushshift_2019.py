@@ -20,14 +20,11 @@ def getPushshiftData(after, before, sub):
 
 def collectSubData(subm):
     subData = list() #list to store data points
-    #  '"' +
     title =subm['title']
     try:
         body = ' '+subm['selftext']
-        # + '"'
     except KeyError:
         body = 'NaN'
-        # '"'
     text = title + body
     url = subm['url']
     author = subm['author']
