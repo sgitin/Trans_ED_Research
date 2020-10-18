@@ -14,10 +14,60 @@ library(broom)
 library(data.table)
 library(formattable)
 library(gridExtra)
-survey <- read_csv("~/Documents/Trans ED Research/Trans ED Questionnaire_October 9, 2020_16.23.csv")
+survey <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/Trans ED Questionnaire_October 9, 2020_16.23.csv")
 ```
 ```{r, choose columns}
-clean_survey <- select(survey, num_range("x", 11:115)) %>%
-  
+compressed_survey <- survey %>% 
+  select(8, 11:12, 14, 16, 18:20, 22, 24:25, 27, 29:30, 32, 34, 36, 38:40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60:61, 63, 65:96, 98, 100:101, 103, 105, 107, 109, 111:112, 114) %>% 
+  slice(16:585)
+```
+
+
+```{r, rename columns}
+renamed_columns <- compressed_survey %>%
+  rename(trans = Q51) %>%
+  rename(gender = Q86) %>%
+  rename(sex = Q10) %>%
+  rename(binary = Q87) %>%
+  rename(know_age = Q88) %>%
+  rename(transition_age = Q89) %>%
+  rename(past_affirm = Q90) %>%
+  rename(future_affirm = Q100) %>%
+  rename(pride = Q71) %>%
+  rename(psych_dx = Q35) %>%
+  rename(psych_selfid = Q36) %>%
+  rename(stress = Q37) %>%
+  rename(ED_dx = Q38) %>%
+  rename(ED_selfid = Q40) %>%
+  rename(ED_care = Q41) %>%
+  rename(ED_transcomp = Q42) %>%
+  rename(behav_ever = Q48) %>%
+  rename(behav_28 = Q50) %>%
+  rename(limit_amount = Q74) %>%
+  rename(long_periods = Q71_1) %>%
+  rename(exclude = Q72) %>%
+  rename(rules = Q73) %>%
+  rename(overeat = Q75) %>%
+  rename(vomit = Q76) %>%
+  rename(laxatives = Q77) %>%
+  rename(exercise = Q78) %>%
+  rename(hormones = Q79) %>%
+  rename(nonmed_trans = Q69) %>%
+  rename(bathroom = Q43) %>%
+  rename(clothes = Q44) %>%
+  rename(messaging = Q45) %>%
+  rename(part_community = Q92) %>%
+  rename(community_support = Q21) %>%
+  rename(age = Q1) %>%
+  rename(race = Q2) %>%
+  rename(lang = Q3) %>%
+  rename(class = Q5) %>%
+  rename(insurance = Q6) %>%
+  rename(region = Q7) %>%
+  rename(devo_environ = Q8) %>%
+  rename(religion = Q9) %>%
+  rename(attraction = Q13) %>%
+  rename(edu = Q15) %>%
+  rename(disability = Q4)
 ```
 
