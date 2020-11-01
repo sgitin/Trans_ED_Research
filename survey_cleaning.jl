@@ -47,28 +47,70 @@ end
 
 
 ## iterate through support questions to change to scores
-for col in ED_bin_df[1, 34:47]
+# for col in ED_bin_df[1, 34:47]
+#     for row in 1:length(ED_bin_df[!, col])
+#         if ED_bin_df[row, col] = "Very Strongly Disagree"
+#             ED_bin_df[row, col] = 1
+#         elseif ED_bin_df[row, col] = "Strongly Disagree"
+#             ED_bin_df[row, col] = 2
+#         elseif ED_bin_df[row, col] = "Mildly Disagree"
+#             ED_bin_df[row, col] = 3
+#         elseif ED_bin_df[row, col] = "Neutral"
+#             ED_bin_df[row, col] = 4
+#         elseif ED_bin_df[row, col] = "Mildly Agree"
+#             ED_bin_df[row, col] = 5
+#         elseif ED_bin_df[row, col] = "Strongly Agree"
+#             ED_bin_df[row, col] = 6
+#         elseif ED_bin_df[row, col] = "Very Strongly Agree"
+#             ED_bin_df[row, col] = 7
+#         else
+#             ED_bin_df[row, col] = "missing"
+#         end
+#     end
+# end
+
+# CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/test_ED_bin.csv", ED_bin_df)
+ 
+## add empty columns for support scoring 
+ED_bin_df = insertcols!(ED_bin_df, 76, :trans_1 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 77, :trans_2 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 78, :SO_1 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 79, :SO_2 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 80, :Fam_1 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 81, :Fam_2 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 82, :SO_3 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 83, :Fri_1 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 84, :Fri_2 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 85, :Fam_3 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 86, :Fri_3 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 87, :SO_4 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 88, :Fam_4 => 0, makeunique = false)
+ED_bin_df = insertcols!(ED_bin_df, 89, :Fri_4 => 0, makeunique = false)
+
+for col in 34:47
     for row in 1:length(ED_bin_df[!, col])
-        if ED_bin_df[row, col] = "Very Strongly Disagree"
-            ED_bin_df[row, col] = 1
-        elseif ED_bin_df[row, col] = "Strongly Disagree"
-            ED_bin_df[row, col] = 2
-        elseif ED_bin_df[row, col] = "Mildly Disagree"
-            ED_bin_df[row, col] = 3
-        elseif ED_bin_df[row, col] = "Neutral"
-            ED_bin_df[row, col] = 4
-        elseif ED_bin_df[row, col] = "Mildly Agree"
-            ED_bin_df[row, col] = 5
-        elseif ED_bin_df[row, col] = "Strongly Agree"
-            ED_bin_df[row, col] = 6
-        elseif ED_bin_df[row, col] = "Very Strongly Agree"
-            ED_bin_df[row, col] = 7
+        if ED_bin_df[row, col] == "Very Strongly Disagree"
+            ED_bin_df[row, col] = "1"
+        elseif ED_bin_df[row, col] == "Strongly Disagree"
+            ED_bin_df[row, col] = "2"
+        elseif ED_bin_df[row, col] == "Mildly Disagree"
+            ED_bin_df[row, col] = "3"
+        elseif ED_bin_df[row, col] == "Neutral"
+            ED_bin_df[row, col] = "4"
+        elseif ED_bin_df[row, col] == "Mildly Agree"
+            ED_bin_df[row, col] = "5"
+        elseif ED_bin_df[row, col] == "Strongly Agree"
+            ED_bin_df[row, col] = "6"
+        elseif ED_bin_df[row, col] == "Very Strongly Agree"
+            ED_bin_df[row, col] = "7"
         else
-            ED_bin_df[row, col] = "missing"
+            ED_bin_df[row, col] = "0"
         end
     end
 end
 
+
+
 CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/test_ED_bin.csv", ED_bin_df)
  
-
+#:SO_2 => 0, :Fam_1 => 0, :Fam_2 => 0, :SO_3 => 0, :Fri_1 => 0, :Fri_2 => 0, :Fam_3 => 0, :Fri_3 => 0, :SO_4 => 0, :Fam_4 => 0, :Fri_4 => 0,
