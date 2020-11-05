@@ -163,18 +163,18 @@ for row in 1:length(ED_bin_df[!, 80])
 end
 
 ## add empty columns for support scores 
-ED_bin_df = insertcols!(ED_bin_df, 81, :trans_score => 0, makeunique=false)
-ED_bin_df = insertcols!(ED_bin_df, 82, :SO_score => 0, makeunique=false)
-ED_bin_df = insertcols!(ED_bin_df, 83, :Fam_score => 0, makeunique=false)
-ED_bin_df = insertcols!(ED_bin_df, 84, :Fri_score => 0, makeunique=false)
-ED_bin_df = insertcols!(ED_bin_df, 85, :Total_score => 0, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 81, :trans_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 82, :SO_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 83, :Fam_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 84, :Fri_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 85, :Total_score => 0.00, makeunique=false)
 
 ## calculate support scores (if any questions were unanswered score will be 0)
 for row in 1:length(ED_bin_df[!, 81])
     trans_1 = parse(Float64, ED_bin_df[row, 34])
     trans_2 = parse(Float64, ED_bin_df[row, 35])
     if trans_1 != 0 && trans_2 != 0
-        ED_bin_df[row, 81] = div((trans_1 + trans_2), 2)
+        ED_bin_df[row, 81] = (trans_1 + trans_2)/ 2.00
     else
         ED_bin_df[row, 81] = 0
     end 
@@ -186,7 +186,7 @@ for row in 1:length(ED_bin_df[!, 82])
     SO_3 = parse(Float64, ED_bin_df[row, 40])
     SO_4 = parse(Float64, ED_bin_df[row, 45])
     if SO_1 != 0 && SO_2 != 0 && SO_3 != 0 && SO_4 != 0
-        ED_bin_df[row, 82] = div((SO_1 + SO_2 + SO_3 + SO_4), 4)
+        ED_bin_df[row, 82] = (SO_1 + SO_2 + SO_3 + SO_4)/ 4.00
     else
         ED_bin_df[row, 82] = 0
     end 
@@ -198,7 +198,7 @@ for row in 1:length(ED_bin_df[!, 83])
     Fam_3 = parse(Float64, ED_bin_df[row, 43])
     Fam_4 = parse(Float64, ED_bin_df[row, 46])
     if Fam_1 != 0 && Fam_2 != 0 && Fam_3 != 0 && Fam_4 != 0
-        ED_bin_df[row, 83] = div((Fam_1 + Fam_2 + Fam_3 + Fam_4), 4)
+        ED_bin_df[row, 83] = (Fam_1 + Fam_2 + Fam_3 + Fam_4)/ 4.00
     else
         ED_bin_df[row, 83] = 0
     end 
@@ -210,7 +210,7 @@ for row in 1:length(ED_bin_df[!, 84])
     Fri_3 = parse(Float64, ED_bin_df[row, 44])
     Fri_4 = parse(Float64, ED_bin_df[row, 47])
     if Fri_1 != 0 && Fri_2 != 0 && Fri_3 != 0 && Fri_4 != 0
-        ED_bin_df[row, 84] = div((Fri_1 + Fri_2 + Fri_3 + Fri_4), 4)
+        ED_bin_df[row, 84] = (Fri_1 + Fri_2 + Fri_3 + Fri_4)/ 4.00
     else
         ED_bin_df[row, 84] = 0
     end 
@@ -230,11 +230,252 @@ for row in 1:length(ED_bin_df[!, 85])
     Fri_3 = parse(Float64, ED_bin_df[row, 44])
     Fri_4 = parse(Float64, ED_bin_df[row, 47])
     if SO_1 != 0 && SO_2 != 0 && SO_3 != 0 && SO_4 != 0 && Fam_1 != 0 && Fam_2 != 0 && Fam_3 != 0 && Fam_4 != 0 && Fri_1 != 0 && Fri_2 != 0 && Fri_3 != 0 && Fri_4 != 0
-        ED_bin_df[row, 84] = div((SO_1 + SO_2 + SO_3 + SO_4 + Fam_1 + Fam_2 + Fam_3 + Fam_4 + Fri_1 + Fri_2 + Fri_3 + Fri_4), 12)
+        ED_bin_df[row, 85] = (SO_1 + SO_2 + SO_3 + SO_4 + Fam_1 + Fam_2 + Fam_3 + Fam_4 + Fri_1 + Fri_2 + Fri_3 + Fri_4)/ 12.00
     else
-        ED_bin_df[row, 84] = 0
+        ED_bin_df[row, 85] = 0
     end 
 end
+
+## add empty columns for binary trans fem and binary trans masc
+ED_bin_df = insertcols!(ED_bin_df, 86, :trans_fem => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 87, :trans_masc => "no", makeunique=false)
+
+## iterate through gender identity questions to fill out trans fem and trans masc columns
+for row in 1:length(ED_bin_df[!, 86])
+    if ED_bin_df[row, 5] == "More as a binary trans person" && ED_bin_df[row, 2] != "No" && occursin("Woman", ED_bin_df[row, 3]) || occursin("Trans Woman", ED_bin_df[row, 3]) || occursin("Demi Girl", ED_bin_df[row, 3])
+        ED_bin_df[row, 86] = "yes"
+    else
+        ED_bin_df[row, 86] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 87])
+    if ED_bin_df[row, 5] == "More as a binary trans person" && ED_bin_df[row, 2] != "No" && occursin("Man", ED_bin_df[row, 3]) || occursin("Trans Man", ED_bin_df[row, 3]) || occursin("Demi Boy", ED_bin_df[row, 3])
+        ED_bin_df[row, 87] = "yes"
+    else
+        ED_bin_df[row, 87] = "no"
+    end
+end
+
+## add empty columns for functions of DE
+ED_bin_df = insertcols!(ED_bin_df, 88, :lose_weight => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 89, :change_shape => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 90, :increase_muscle => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 91, :decrease_muscle => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 92, :curves_bigger => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 93, :curves_smaller => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 94, :society_weight => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 95, :society_shape => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 96, :society_gender => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 97, :attractive => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 98, :weight_sport => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 99, :body_sport => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 100, :dysphoria => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 101, :passing_comfort => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 102, :passing_safety => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 103, :no_hormones => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 104, :no_surgery => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 105, :no_periods => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 106, :anxiety => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 107, :depression => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 108, :trauma => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 109, :numb_pain => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 110, :control => "no", makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 111, :compulsion => "no", makeunique=false)
+
+# iterate through function of disordered eating behavior questions to fill out yes/no columns for each function
+for row in 1:length(ED_bin_df[!, 88])
+    if occursin("To lose weight", ED_bin_df[row, 20]) || occursin("To lose weight", ED_bin_df[row, 21]) || occursin("To lose weight", ED_bin_df[row, 22]) || occursin("To lose weight", ED_bin_df[row, 23]) || occursin("To lose weight", ED_bin_df[row, 24]) || occursin("To lose weight", ED_bin_df[row, 25]) || occursin("To lose weight", ED_bin_df[row, 26]) || occursin("To lose weight", ED_bin_df[row, 27]) || occursin("To lose weight", ED_bin_df[row, 28])
+        ED_bin_df[row, 88] = "yes"
+    else
+        ED_bin_df[row, 88] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 89])
+    if occursin("To change body shape", ED_bin_df[row, 20]) || occursin("To change body shape", ED_bin_df[row, 21]) || occursin("To change body shape", ED_bin_df[row, 22]) || occursin("To change body shape", ED_bin_df[row, 23]) || occursin("To change body shape", ED_bin_df[row, 24]) || occursin("To change body shape", ED_bin_df[row, 25]) || occursin("To change body shape", ED_bin_df[row, 26]) || occursin("To change body shape", ED_bin_df[row, 27]) || occursin("To change body shape", ED_bin_df[row, 28])
+        ED_bin_df[row, 89] = "yes"
+    else
+        ED_bin_df[row, 89] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 90])
+    if occursin("To increase muscle mass", ED_bin_df[row, 20]) || occursin("To increase muscle mass", ED_bin_df[row, 21]) || occursin("To increase muscle mass", ED_bin_df[row, 22]) || occursin("To increase muscle mass", ED_bin_df[row, 23]) || occursin("To increase muscle mass", ED_bin_df[row, 24]) || occursin("To increase muscle mass", ED_bin_df[row, 25]) || occursin("To increase muscle mass", ED_bin_df[row, 26]) || occursin("To increase muscle mass", ED_bin_df[row, 27]) || occursin("To increase muscle mass", ED_bin_df[row, 28])
+        ED_bin_df[row, 90] = "yes"
+    else
+        ED_bin_df[row, 90] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 91])
+    if occursin("To decrease muscle mass", ED_bin_df[row, 20]) || occursin("To decrease muscle mass", ED_bin_df[row, 21]) || occursin("To decrease muscle mass", ED_bin_df[row, 22]) || occursin("To decrease muscle mass", ED_bin_df[row, 23]) || occursin("To decrease muscle mass", ED_bin_df[row, 24]) || occursin("To decrease muscle mass", ED_bin_df[row, 25]) || occursin("To decrease muscle mass", ED_bin_df[row, 26]) || occursin("To decrease muscle mass", ED_bin_df[row, 27]) || occursin("To decrease muscle mass", ED_bin_df[row, 28])
+        ED_bin_df[row, 91] = "yes"
+    else
+        ED_bin_df[row, 91] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 92])
+    if occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 20]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 21]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 22]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 23]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 24]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 25]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 26]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 27]) || occursin("To make “curves” (i.e. hips, butt, breasts) bigger", ED_bin_df[row, 28])
+        ED_bin_df[row, 92] = "yes"
+    else
+        ED_bin_df[row, 92] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 93])
+    if occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 20]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 21]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 22]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 23]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 24]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 25]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 26]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 27]) || occursin("To make “curves” (i.e. hips, butt, breasts) smaller", ED_bin_df[row, 28])
+        ED_bin_df[row, 93] = "yes"
+    else
+        ED_bin_df[row, 93] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 94])
+    if occursin("To fit societal standards of weight", ED_bin_df[row, 20]) || occursin("To fit societal standards of weight", ED_bin_df[row, 21]) || occursin("To fit societal standards of weight", ED_bin_df[row, 22]) || occursin("To fit societal standards of weight", ED_bin_df[row, 23]) || occursin("To fit societal standards of weight", ED_bin_df[row, 24]) || occursin("To fit societal standards of weight", ED_bin_df[row, 25]) || occursin("To fit societal standards of weight", ED_bin_df[row, 26]) || occursin("To fit societal standards of weight", ED_bin_df[row, 27]) || occursin("To fit societal standards of weight", ED_bin_df[row, 28])
+        ED_bin_df[row, 94] = "yes"
+    else
+        ED_bin_df[row, 94] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 95])
+    if occursin("To fit societal standards of body shape", ED_bin_df[row, 20]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 21]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 22]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 23]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 24]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 25]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 26]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 27]) || occursin("To fit societal standards of body shape", ED_bin_df[row, 28])
+        ED_bin_df[row, 95] = "yes"
+    else
+        ED_bin_df[row, 95] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 96])
+    if occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 20]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 21]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 22]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 23]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 24]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 25]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 26]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 27]) || occursin("To fit societal standards of what your gender “should” look like", ED_bin_df[row, 28])
+        ED_bin_df[row, 96] = "yes"
+    else
+        ED_bin_df[row, 96] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 97])
+    if occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 20]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 21]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 22]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 23]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 24]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 25]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 26]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 27]) || occursin("To be more attractive to sexual partners, current or future", ED_bin_df[row, 28])
+        ED_bin_df[row, 97] = "yes"
+    else
+        ED_bin_df[row, 97] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 98])
+    if occursin("To fit a weight class for a sport", ED_bin_df[row, 20]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 21]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 22]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 23]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 24]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 25]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 26]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 27]) || occursin("To fit a weight class for a sport", ED_bin_df[row, 28])
+        ED_bin_df[row, 98] = "yes"
+    else
+        ED_bin_df[row, 98] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 99])
+    if occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 20]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 21]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 22]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 23]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 24]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 25]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 26]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 27]) || occursin("To have the “right” body type for a sport or other activity", ED_bin_df[row, 28])
+        ED_bin_df[row, 99] = "yes"
+    else
+        ED_bin_df[row, 99] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 100])
+    if occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 20]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 21]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 22]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 23]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 24]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 25]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 26]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 27]) || occursin("to avoid the discomfort of seeing a body that doesn’t match who you are", ED_bin_df[row, 28])
+        ED_bin_df[row, 100] = "yes"
+    else
+        ED_bin_df[row, 100] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 101])
+    if occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 20]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 21]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 22]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 23]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 24]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 25]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 26]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 27]) || occursin("to avoid the discomfort of being misgendered", ED_bin_df[row, 28])
+        ED_bin_df[row, 101] = "yes"
+    else
+        ED_bin_df[row, 101] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 102])
+    if occursin("for safety reasons", ED_bin_df[row, 20]) || occursin("for safety reasons", ED_bin_df[row, 21]) || occursin("for safety reasons", ED_bin_df[row, 22]) || occursin("for safety reasons", ED_bin_df[row, 23]) || occursin("for safety reasons", ED_bin_df[row, 24]) || occursin("for safety reasons", ED_bin_df[row, 25]) || occursin("for safety reasons", ED_bin_df[row, 26]) || occursin("for safety reasons", ED_bin_df[row, 27]) || occursin("for safety reasons", ED_bin_df[row, 28])
+        ED_bin_df[row, 102] = "yes"
+    else
+        ED_bin_df[row, 102] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 103])
+    if occursin("without using prescription hormones", ED_bin_df[row, 20]) || occursin("without using prescription hormones", ED_bin_df[row, 21]) || occursin("without using prescription hormones", ED_bin_df[row, 22]) || occursin("without using prescription hormones", ED_bin_df[row, 23]) || occursin("without using prescription hormones", ED_bin_df[row, 24]) || occursin("without using prescription hormones", ED_bin_df[row, 25]) || occursin("without using prescription hormones", ED_bin_df[row, 26]) || occursin("without using prescription hormones", ED_bin_df[row, 27]) || occursin("without using prescription hormones", ED_bin_df[row, 28])
+        ED_bin_df[row, 103] = "yes"
+    else
+        ED_bin_df[row, 103] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 104])
+    if occursin("without having surgical procedures", ED_bin_df[row, 20]) || occursin("without having surgical procedures", ED_bin_df[row, 21]) || occursin("without having surgical procedures", ED_bin_df[row, 22]) || occursin("without having surgical procedures", ED_bin_df[row, 23]) || occursin("without having surgical procedures", ED_bin_df[row, 24]) || occursin("without having surgical procedures", ED_bin_df[row, 25]) || occursin("without having surgical procedures", ED_bin_df[row, 26]) || occursin("without having surgical procedures", ED_bin_df[row, 27]) || occursin("without having surgical procedures", ED_bin_df[row, 28])
+        ED_bin_df[row, 104] = "yes"
+    else
+        ED_bin_df[row, 104] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 105])
+    if occursin("To suppress menstruation", ED_bin_df[row, 20]) || occursin("To suppress menstruation", ED_bin_df[row, 21]) || occursin("To suppress menstruation", ED_bin_df[row, 22]) || occursin("To suppress menstruation", ED_bin_df[row, 23]) || occursin("To suppress menstruation", ED_bin_df[row, 24]) || occursin("To suppress menstruation", ED_bin_df[row, 25]) || occursin("To suppress menstruation", ED_bin_df[row, 26]) || occursin("To suppress menstruation", ED_bin_df[row, 27]) || occursin("To suppress menstruation", ED_bin_df[row, 28])
+        ED_bin_df[row, 105] = "yes"
+    else
+        ED_bin_df[row, 105] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 106])
+    if occursin("stress or anxiety", ED_bin_df[row, 20]) || occursin("stress or anxiety", ED_bin_df[row, 21]) || occursin("stress or anxiety", ED_bin_df[row, 22]) || occursin("stress or anxiety", ED_bin_df[row, 23]) || occursin("stress or anxiety", ED_bin_df[row, 24]) || occursin("stress or anxiety", ED_bin_df[row, 25]) || occursin("stress or anxiety", ED_bin_df[row, 26]) || occursin("stress or anxiety", ED_bin_df[row, 27]) || occursin("stress or anxiety", ED_bin_df[row, 28])
+        ED_bin_df[row, 106] = "yes"
+    else
+        ED_bin_df[row, 106] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 107])
+    if occursin("depression", ED_bin_df[row, 20]) || occursin("depression", ED_bin_df[row, 21]) || occursin("depression", ED_bin_df[row, 22]) || occursin("depression", ED_bin_df[row, 23]) || occursin("depression", ED_bin_df[row, 24]) || occursin("depression", ED_bin_df[row, 25]) || occursin("depression", ED_bin_df[row, 26]) || occursin("depression", ED_bin_df[row, 27]) || occursin("depression", ED_bin_df[row, 28])
+        ED_bin_df[row, 107] = "yes"
+    else
+        ED_bin_df[row, 107] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 108])
+    if occursin("trauma", ED_bin_df[row, 20]) || occursin("trauma", ED_bin_df[row, 21]) || occursin("trauma", ED_bin_df[row, 22]) || occursin("trauma", ED_bin_df[row, 23]) || occursin("trauma", ED_bin_df[row, 24]) || occursin("trauma", ED_bin_df[row, 25]) || occursin("trauma", ED_bin_df[row, 26]) || occursin("trauma", ED_bin_df[row, 27]) || occursin("trauma", ED_bin_df[row, 28])
+        ED_bin_df[row, 108] = "yes"
+    else
+        ED_bin_df[row, 108] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 109])
+    if occursin("To numb emotional pain", ED_bin_df[row, 20]) || occursin("To numb emotional pain", ED_bin_df[row, 21]) || occursin("To numb emotional pain", ED_bin_df[row, 22]) || occursin("To numb emotional pain", ED_bin_df[row, 23]) || occursin("To numb emotional pain", ED_bin_df[row, 24]) || occursin("To numb emotional pain", ED_bin_df[row, 25]) || occursin("To numb emotional pain", ED_bin_df[row, 26]) || occursin("To numb emotional pain", ED_bin_df[row, 27]) || occursin("To numb emotional pain", ED_bin_df[row, 28])
+        ED_bin_df[row, 109] = "yes"
+    else
+        ED_bin_df[row, 109] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 110])
+    if occursin("To exert control", ED_bin_df[row, 20]) || occursin("To exert control", ED_bin_df[row, 21]) || occursin("To exert control", ED_bin_df[row, 22]) || occursin("To exert control", ED_bin_df[row, 23]) || occursin("To exert control", ED_bin_df[row, 24]) || occursin("To exert control", ED_bin_df[row, 25]) || occursin("To exert control", ED_bin_df[row, 26]) || occursin("To exert control", ED_bin_df[row, 27]) || occursin("To exert control", ED_bin_df[row, 28])
+        ED_bin_df[row, 110] = "yes"
+    else
+        ED_bin_df[row, 110] = "no"
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 111])
+    if occursin("To satisfy a compulsion", ED_bin_df[row, 20]) || occursin("To satisfy a compulsion", ED_bin_df[row, 21]) || occursin("To satisfy a compulsion", ED_bin_df[row, 22]) || occursin("To satisfy a compulsion", ED_bin_df[row, 23]) || occursin("To satisfy a compulsion", ED_bin_df[row, 24]) || occursin("To satisfy a compulsion", ED_bin_df[row, 25]) || occursin("To satisfy a compulsion", ED_bin_df[row, 26]) || occursin("To satisfy a compulsion", ED_bin_df[row, 27]) || occursin("To satisfy a compulsion", ED_bin_df[row, 28])
+        ED_bin_df[row, 111] = "yes"
+    else
+        ED_bin_df[row, 111] = "no"
+    end
+end
+
 
 CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/test_ED_bin.csv", ED_bin_df)
  
