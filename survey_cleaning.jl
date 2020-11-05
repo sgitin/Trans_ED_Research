@@ -12,28 +12,28 @@ survey3_df = coalesce.(survey2_df, "missing")
 renamed_columns_df = rename(survey3_df, Dict(:Q51 => :trans, :Q86 => :gender, :Q10 => :sex, :Q87 => :binary, :Q88 => :know_age, :Q89 => :transition_age, :Q90 => :past_affirm, :Q100 => :future_affirm, :Q71 => :pride, :Q35 => :psych_dx, :Q36 => :psych_selfid, :Q37 => :stress, :Q38 => :ED_dx, :Q40 => :ED_selfid, :Q41 => :ED_care, :Q42 => :ED_transcomp, :Q48 => :behav_ever, :Q50 => :behav_28, :Q74 => :limit_amount, :Q71_1 => :long_periods, :Q72 => :exclude, :Q73 => :rules, :Q75 => :overeat, :Q76 => :vomit, :Q77 => :laxatives, :Q78 => :exercise, :Q79 => :hormones, :Q92 => :part_community, :Q21 => :community_support, :Q22 => :SO_1, :Q89_1 => :SO_2, :Q90_1 => :Fam_1, :Q91 => :Fam_2, :Q92_1 => :SO_3, :Q93 => :Fri_1, :Q94 => :Fri_2, :Q95 => :Fam_3, :Q97 => :Fri_3, :Q98 => :SO_4, :Q99 => :Fam_4, :Q34 => :Fri_4, :Q1 => :age, :Q2 => :race, :Q3 => :lang, :Q5 => :class, :Q6 => :insurance, :Q7 => :region, :Q8 => :devo_environ, :Q9 => :religion, :Q13 => :attraction, :Q15 => :edu, :Q4 => :disability))
 
 ## add empty column for 1/0 ED 
-ED_bin_df = insertcols!(renamed_columns_df, 75, :ED_BIN => 0, makeunique=false)
+ED_bin_df = insertcols!(renamed_columns_df, 75, :ED_BIN => "no", makeunique=false)
 
 ## iterate through ED questions to change ED bin to 1 if have ED, leave 0 if not
 for row in 1:length(ED_bin_df[!, 14])
     if ED_bin_df[row, 14] != "missing"
-        ED_bin_df[row, 75] = 1
+        ED_bin_df[row, 75] = "yes"
     elseif ED_bin_df[row, 15] != "missing"
-        ED_bin_df[row, 75] = 1
+        ED_bin_df[row, 75] = "yes"
     else
-        ED_bin_df[row, 75] = 0
+        ED_bin_df[row, 75] = "no"
     end
 end
 
 ## add empty column for 1/0 current disordered eating behavior 
-ED_bin_df = insertcols!(ED_bin_df, 76, :DE_BIN => 0, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 76, :DE_BIN => "no", makeunique=false)
 
 ## iterate through disordered eating behavior questions to change DE bin to 1 if have current DE behaviors, leave 0 if not
 for row in 1:length(ED_bin_df[!, 19])
     if ED_bin_df[row, 19] != "missing"
-        ED_bin_df[row, 76] = 1
+        ED_bin_df[row, 76] = "yes"
     else
-        ED_bin_df[row, 76] = 0
+        ED_bin_df[row, 76] = "no"
     end
 end
 
@@ -88,13 +88,6 @@ for col in 6:7
     end
 end
 
-# for row in 1:length(ED_bin_df[!, 6])
-#     ED_bin_df[row, 6] = parse(Int, ED_bin_df[row, 6])
-# end
-
-# for row in 1:length(ED_bin_df[!, 7])
-#     ED_bin_df[row, 7] = parse(Int, ED_bin_df[row, 7])
-# end
 
 
 ## add empty column for years until affirmation started 
@@ -131,7 +124,117 @@ for col in 34:47
     end
 end
 
+## add empty column for 1/0 nonbinary bin 
+ED_bin_df = insertcols!(ED_bin_df, 78, :enby_BIN => "no", makeunique=false)
 
+## iterate through nonbinary question to change enby bin to 1 if ID more as enby, leave 0 if not
+for row in 1:length(ED_bin_df[!, 78])
+    if ED_bin_df[row, 5] == "More as a nonbinary trans person"
+        ED_bin_df[row, 78] = "yes"
+    else
+        ED_bin_df[row, 78] = "no"
+    end
+end
+
+## add empty column for 1/0 psych bin 
+ED_bin_df = insertcols!(ED_bin_df, 79, :psych_BIN => "no", makeunique=false)
+
+## iterate through psych dx questions to change psych bin to 1 if have a psych condition, leave 0 if not
+for row in 1:length(ED_bin_df[!, 79])
+    if ED_bin_df[row, 11] != "missing"
+        ED_bin_df[row, 79] = "yes"
+    elseif ED_bin_df[row, 12] != "missing"
+        ED_bin_df[row, 79] = "yes"
+    else
+        ED_bin_df[row, 79] = "no"
+    end
+end
+
+## add empty column for 1/0 future affirmations bin 
+ED_bin_df = insertcols!(ED_bin_df, 80, :future_affirm_BIN => "no", makeunique=false)
+
+## iterate through psych dx questions to change psych bin to 1 if have a psych condition, leave 0 if not
+for row in 1:length(ED_bin_df[!, 80])
+    if ED_bin_df[row, 9] != "missing"
+        ED_bin_df[row, 80] = "yes"
+    else
+        ED_bin_df[row, 80] = "no"
+    end
+end
+
+## add empty columns for support scores 
+ED_bin_df = insertcols!(ED_bin_df, 81, :trans_score => 0, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 82, :SO_score => 0, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 83, :Fam_score => 0, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 84, :Fri_score => 0, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 85, :Total_score => 0, makeunique=false)
+
+## calculate support scores (if any questions were unanswered score will be 0)
+for row in 1:length(ED_bin_df[!, 81])
+    trans_1 = parse(Float64, ED_bin_df[row, 34])
+    trans_2 = parse(Float64, ED_bin_df[row, 35])
+    if trans_1 != 0 && trans_2 != 0
+        ED_bin_df[row, 81] = div((trans_1 + trans_2), 2)
+    else
+        ED_bin_df[row, 81] = 0
+    end 
+end
+
+for row in 1:length(ED_bin_df[!, 82])
+    SO_1 = parse(Float64, ED_bin_df[row, 36])
+    SO_2 = parse(Float64, ED_bin_df[row, 37])
+    SO_3 = parse(Float64, ED_bin_df[row, 40])
+    SO_4 = parse(Float64, ED_bin_df[row, 45])
+    if SO_1 != 0 && SO_2 != 0 && SO_3 != 0 && SO_4 != 0
+        ED_bin_df[row, 82] = div((SO_1 + SO_2 + SO_3 + SO_4), 4)
+    else
+        ED_bin_df[row, 82] = 0
+    end 
+end
+
+for row in 1:length(ED_bin_df[!, 83])
+    Fam_1 = parse(Float64, ED_bin_df[row, 38])
+    Fam_2 = parse(Float64, ED_bin_df[row, 39])
+    Fam_3 = parse(Float64, ED_bin_df[row, 43])
+    Fam_4 = parse(Float64, ED_bin_df[row, 46])
+    if Fam_1 != 0 && Fam_2 != 0 && Fam_3 != 0 && Fam_4 != 0
+        ED_bin_df[row, 83] = div((Fam_1 + Fam_2 + Fam_3 + Fam_4), 4)
+    else
+        ED_bin_df[row, 83] = 0
+    end 
+end
+
+for row in 1:length(ED_bin_df[!, 84])
+    Fri_1 = parse(Float64, ED_bin_df[row, 41])
+    Fri_2 = parse(Float64, ED_bin_df[row, 42])
+    Fri_3 = parse(Float64, ED_bin_df[row, 44])
+    Fri_4 = parse(Float64, ED_bin_df[row, 47])
+    if Fri_1 != 0 && Fri_2 != 0 && Fri_3 != 0 && Fri_4 != 0
+        ED_bin_df[row, 84] = div((Fri_1 + Fri_2 + Fri_3 + Fri_4), 4)
+    else
+        ED_bin_df[row, 84] = 0
+    end 
+end
+
+for row in 1:length(ED_bin_df[!, 85])
+    SO_1 = parse(Float64, ED_bin_df[row, 36])
+    SO_2 = parse(Float64, ED_bin_df[row, 37])
+    SO_3 = parse(Float64, ED_bin_df[row, 40])
+    SO_4 = parse(Float64, ED_bin_df[row, 45])
+    Fam_1 = parse(Float64, ED_bin_df[row, 38])
+    Fam_2 = parse(Float64, ED_bin_df[row, 39])
+    Fam_3 = parse(Float64, ED_bin_df[row, 43])
+    Fam_4 = parse(Float64, ED_bin_df[row, 46])
+    Fri_1 = parse(Float64, ED_bin_df[row, 41])
+    Fri_2 = parse(Float64, ED_bin_df[row, 42])
+    Fri_3 = parse(Float64, ED_bin_df[row, 44])
+    Fri_4 = parse(Float64, ED_bin_df[row, 47])
+    if SO_1 != 0 && SO_2 != 0 && SO_3 != 0 && SO_4 != 0 && Fam_1 != 0 && Fam_2 != 0 && Fam_3 != 0 && Fam_4 != 0 && Fri_1 != 0 && Fri_2 != 0 && Fri_3 != 0 && Fri_4 != 0
+        ED_bin_df[row, 84] = div((SO_1 + SO_2 + SO_3 + SO_4 + Fam_1 + Fam_2 + Fam_3 + Fam_4 + Fri_1 + Fri_2 + Fri_3 + Fri_4), 12)
+    else
+        ED_bin_df[row, 84] = 0
+    end 
+end
 
 CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/test_ED_bin.csv", ED_bin_df)
  
