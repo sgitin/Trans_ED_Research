@@ -1,0 +1,124 @@
+---
+title: "Survey Hypothesis Tests"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(data.table)
+library(formattable)
+library(gridExtra)
+clean_survey <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv")
+```
+```{r}
+clean_clothes_survey <- clean_survey %>%
+  filter(clothes != "missing")
+clean_trans_survey <- clean_survey %>%
+  filter(trans != "missing")
+clean_sort_survey <- clean_survey %>%
+  filter(trans_sort != "N/A")
+clean_trans_score_survey <- clean_survey %>%
+  filter(trans_score != 0)
+clean_SO_survey <- clean_survey %>%
+  filter(SO_score != 0)
+clean_Fam_survey <- clean_survey %>%
+  filter(Fam_score != 0)
+clean_Fri_survey <- clean_survey %>%
+  filter(Fri_score != 0)
+clean_Total_survey <- clean_survey %>%
+  filter(Total_score != 0)
+clean_disc_survey <- clean_survey %>%
+  filter(disc_score != 0)
+clean_reject_survey <- clean_survey %>%
+  filter(reject_score != 0)
+clean_vict_survey <- clean_survey %>%
+  filter(vict_score != 0)
+clean_years_survey <- clean_survey %>%
+  filter(years_to_trans >= 0)
+clean_pride_survey <- clean_survey %>%
+  filter(pride != "missing")
+clean_attraction_survey <- clean_survey %>%
+  filter(attraction != "missing")
+clean_stress_survey <- clean_survey %>%
+  filter(stress != "missing")
+clean_nonaffirm_survey <- clean_survey %>%
+  filter(nonaffirm != "missing")
+```
+
+```{r, chi sq}
+clothes_table <- table(clean_clothes_survey$clothes, clean_clothes_survey$ED_BIN)
+chisq.test(clothes_table, correct=FALSE)
+
+trans_sort_table <- table(clean_sort_survey$trans_sort, clean_sort_survey$ED_BIN)
+chisq.test(trans_sort_table, correct=FALSE)
+
+psych_table <- table(clean_survey$psych_BIN, clean_survey$ED_BIN)
+chisq.test(psych_table, correct=FALSE)
+
+future_affirm_table <- table(clean_survey$future_affirm_BIN, clean_survey$DE_BIN)
+chisq.test(future_affirm_table, correct=FALSE)
+
+stress_table <- table(clean_stress_survey$stress, clean_stress_survey$DE_BIN)
+chisq.test(stress_table, correct=FALSE)
+
+
+```
+```{r, ANOVA}
+ED_SO_anova <- aov(SO_score~ED_BIN, data=clean_SO_survey)
+summary(ED_SO_anova)
+
+ED_Fam_anova <- aov(Fam_score~ED_BIN, data=clean_Fam_survey)
+summary(ED_Fam_anova)
+
+ED_Fri_anova <- aov(Fri_score~ED_BIN, data=clean_Fri_survey)
+summary(ED_Fri_anova)
+
+ED_Total_anova <- aov(Total_score~ED_BIN, data=clean_Total_survey)
+summary(ED_Total_anova)
+
+ED_disc_anova <- aov(disc_score~ED_BIN, data=clean_survey)
+summary(ED_disc_anova)
+
+ED_reject_anova <- aov(reject_score~ED_BIN, data=clean_survey)
+summary(ED_reject_anova)
+
+ED_vict_anova <- aov(vict_score~ED_BIN, data=clean_survey)
+summary(ED_vict_anova)
+
+DE_SO_anova <- aov(SO_score~DE_BIN, data=clean_SO_survey)
+summary(DE_SO_anova)
+
+DE_Fam_anova <- aov(Fam_score~DE_BIN, data=clean_Fam_survey)
+summary(DE_Fam_anova)
+
+DE_Fri_anova <- aov(Fri_score~DE_BIN, data=clean_Fri_survey)
+summary(DE_Fri_anova)
+
+DE_Total_anova <- aov(Total_score~DE_BIN, data=clean_Total_survey)
+summary(DE_Total_anova)
+
+DE_disc_anova <- aov(disc_score~DE_BIN, data=clean_survey)
+summary(DE_disc_anova)
+
+DE_reject_anova <- aov(reject_score~DE_BIN, data=clean_survey)
+summary(DE_reject_anova)
+
+DE_vict_anova <- aov(vict_score~DE_BIN, data=clean_survey)
+summary(DE_vict_anova)
+
+DE_current_disc_anova <- aov(current_disc_score~DE_BIN, data=clean_survey)
+summary(DE_current_disc_anova)
+
+DE_current_reject_anova <- aov(current_reject_score~DE_BIN, data=clean_survey)
+summary(DE_current_reject_anova)
+
+DE_current_vict_anova <- aov(current_vict_score~DE_BIN, data=clean_survey)
+summary(DE_current_vict_anova)
+```
+
+
