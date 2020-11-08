@@ -121,4 +121,7 @@ DE_current_vict_anova <- aov(current_vict_score~DE_BIN, data=clean_survey)
 summary(DE_current_vict_anova)
 ```
 
+```{r, function tests}
+
+```
 
