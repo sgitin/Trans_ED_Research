@@ -476,6 +476,212 @@ for row in 1:length(ED_bin_df[!, 111])
     end
 end
 
+## add empty column for trans fem/trans masc/enby
+ED_bin_df = insertcols!(ED_bin_df, 112, :trans_sort => "N/A", makeunique=false)
 
-CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/test_ED_bin.csv", ED_bin_df)
+for row in 1:length(ED_bin_df[!, 112])
+    if ED_bin_df[row, 78] == "yes"
+        ED_bin_df[row, 112] = "nonbinary"
+    elseif ED_bin_df[row, 86] == "yes"
+        ED_bin_df[row, 112] = "trans-fem"
+    elseif ED_bin_df[row, 87] == "yes"
+        ED_bin_df[row, 112] = "trans-masc"
+    else
+        ED_bin_df[row, 112] = "N/A"
+    end
+end
+
+## add empty columns for GMSR scoring
+ED_bin_df = insertcols!(ED_bin_df, 113, :disc_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 114, :reject_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 115, :vict_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 116, :current_disc_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 117, :current_reject_score => 0.00, makeunique=false)
+ED_bin_df = insertcols!(ED_bin_df, 118, :current_vict_score => 0.00, makeunique=false)
+
+
+# iterate through GMSR questions to fill out score columns
+for row in 1:length(ED_bin_df[!, 113])
+    if occursin("Yes, in the past year", ED_bin_df[row, 48]) 
+        ED_bin_df[row, 113] = 1.00
+        ED_bin_df[row, 116] = 1.00
+    elseif occursin("Yes", ED_bin_df[row, 48])
+        ED_bin_df[row, 113] = 1.00
+        ED_bin_df[row, 116] = 0.00
+    else
+        ED_bin_df[row, 113] = 0.00
+        ED_bin_df[row, 116] = 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 113])
+    if occursin("Yes, in the past year", ED_bin_df[row, 49]) 
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 49])
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 0.00
+    else
+        ED_bin_df[row, 113] += 0.00
+        ED_bin_df[row, 116] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 113])
+    if occursin("Yes, in the past year", ED_bin_df[row, 50]) 
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 50])
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 0.00
+    else
+        ED_bin_df[row, 113] += 0.00
+        ED_bin_df[row, 116] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 113])
+    if occursin("Yes, in the past year", ED_bin_df[row, 51]) 
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 51])
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 0.00
+    else
+        ED_bin_df[row, 113] += 0.00
+        ED_bin_df[row, 116] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 113])
+    if occursin("Yes, in the past year", ED_bin_df[row, 52]) 
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 52])
+        ED_bin_df[row, 113] += 1.00
+        ED_bin_df[row, 116] += 0.00
+    else
+        ED_bin_df[row, 113] += 0.00
+        ED_bin_df[row, 116] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 114])
+    if occursin("Yes, in the past year", ED_bin_df[row, 53]) 
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 53])
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 0.00
+    else
+        ED_bin_df[row, 114] += 0.00
+        ED_bin_df[row, 117] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 114])
+    if occursin("Yes, in the past year", ED_bin_df[row, 54]) 
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 54])
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 0.00
+    else
+        ED_bin_df[row, 114] += 0.00
+        ED_bin_df[row, 117] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 114])
+    if occursin("Yes, in the past year", ED_bin_df[row, 55]) 
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 55])
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 0.00
+    else
+        ED_bin_df[row, 114] += 0.00
+        ED_bin_df[row, 117] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 114])
+    if occursin("Yes, in the past year", ED_bin_df[row, 56]) 
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 56])
+        ED_bin_df[row, 114] += 1.00
+        ED_bin_df[row, 117] += 0.00
+    else
+        ED_bin_df[row, 114] += 0.00
+        ED_bin_df[row, 117] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 115])
+    if occursin("Yes, in the past year", ED_bin_df[row, 57]) 
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 57])
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 0.00
+    else
+        ED_bin_df[row, 115] += 0.00
+        ED_bin_df[row, 118] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 115])
+    if occursin("Yes, in the past year", ED_bin_df[row, 58]) 
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 58])
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 0.00
+    else
+        ED_bin_df[row, 115] += 0.00
+        ED_bin_df[row, 118] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 115])
+    if occursin("Yes, in the past year", ED_bin_df[row, 59]) 
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 59])
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 0.00
+    else
+        ED_bin_df[row, 115] += 0.00
+        ED_bin_df[row, 118] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 115])
+    if occursin("Yes, in the past year", ED_bin_df[row, 60]) 
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 60])
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 0.00
+    else
+        ED_bin_df[row, 115] += 0.00
+        ED_bin_df[row, 118] += 0.00
+    end
+end
+
+for row in 1:length(ED_bin_df[!, 115])
+    if occursin("Yes, in the past year", ED_bin_df[row, 61]) 
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 1.00
+    elseif occursin("Yes", ED_bin_df[row, 61])
+        ED_bin_df[row, 115] += 1.00
+        ED_bin_df[row, 118] += 0.00
+    else
+        ED_bin_df[row, 115] += 0.00
+        ED_bin_df[row, 118] += 0.00
+    end
+end
+
+CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv", ED_bin_df)
  
