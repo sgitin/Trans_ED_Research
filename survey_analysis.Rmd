@@ -1,0 +1,111 @@
+---
+title: "Survey Analysis"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(data.table)
+library(formattable)
+library(gridExtra)
+clean_survey <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv")
+```
+```{r, ED_BIN graphs}
+
+ggplot(clean_survey, aes(x=trans, fill = ED_BIN)) + geom_bar()
+ggplot(clean_survey, aes(x=trans_sort, fill = ED_BIN)) + geom_bar()
+ggplot(clean_survey, aes(x=sex, fill = ED_BIN)) + geom_bar()
+ggplot(clean_survey, aes(x=psych_BIN, fill = ED_BIN)) + geom_bar()
+ggplot(clean_survey, aes(x=ED_BIN, y=trans_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=SO_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=Fam_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=Fri_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=Total_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=disc_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=reject_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=vict_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=years_to_trans)) + geom_boxplot()
+
+```
+
+```{r, DE_BIN graphs}
+ggplot(clean_survey, aes(x=future_affirm_BIN, fill = DE_BIN)) + geom_bar()
+ggplot(clean_survey, aes(x=DE_BIN, y=trans_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=SO_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=Fam_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=Fri_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=Total_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=disc_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=reject_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=vict_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=current_disc_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=current_reject_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=current_vict_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=years_to_trans)) + geom_boxplot()
+ggplot(clean_survey, aes(x=stress, fill = DE_BIN)) + geom_bar()
+
+```
+
+```{r, function graphs}
+#each func by trans y/n and enby/fem/masc
+ggplot(clean_survey, aes(x=lose_weight, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=lose_weight, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=change_shape, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=change_shape, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=increase_muscle, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=increase_muscle, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=decrease_muscle, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=decrease_muscle, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=curves_bigger, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=curves_bigger, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=curves_smaller, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=curves_smaller, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=society_weight, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=society_weight, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=society_shape, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=society_shape, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=society_gender, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=society_gender, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=attractive, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=attractive, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=weight_sport, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=weight_sport, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=body_sport, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=body_sport, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=dysphoria, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=dysphoria, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=passing_comfort, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=passing_comfort, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=passing_safety, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=passing_safety, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=no_hormones, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=no_hormones, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=no_surgery, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=no_surgery, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=no_periods, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=no_periods, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=anxiety, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=anxiety, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=depression, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=depression, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=trauma, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=trauma, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=numb_pain, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=numb_pain, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=control, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=control, fill = trans_sort)) + geom_bar()
+ggplot(clean_survey, aes(x=compulsion, fill = trans)) + geom_bar()
+ggplot(clean_survey, aes(x=compulsion, fill = trans_sort)) + geom_bar()
+
+
+
+
+
+```
+
+
