@@ -22,7 +22,8 @@ clean_EDtranscomp_survey <- clean_survey %>%
   filter(ED_transcomp != "missing")
 
 ggplot(clean_clothes_survey, aes(x=clothes, fill = ED_BIN)) + geom_bar()
-ggplot(clean_EDtranscomp_survey, aes(x=EDtranscomp)) + geom_bar()
+ggplot(clean_EDtranscomp_survey, aes(x=ED_transcomp)) + geom_bar()+ theme(axis.text.x=element_text(angle = -90, hjust = 0))
+
 ```
 
 
@@ -72,7 +73,7 @@ ggplot(clean_vict_survey, aes(x=ED_BIN, y=vict_score)) + geom_boxplot()
 ggplot(clean_survey, aes(x=ED_BIN, y=vict_score)) + geom_boxplot()
 ggplot(clean_years_survey, aes(x=ED_BIN, y=years_to_trans)) + geom_boxplot()
 
-ggplot(clean_attraction_survey, aes(x=attraction, fill=ED_BIN)) + geom_bar()
+ggplot(clean_attraction_survey, aes(x=attraction, fill=ED_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
 ```
 
 ```{r, DE_BIN graphs}
