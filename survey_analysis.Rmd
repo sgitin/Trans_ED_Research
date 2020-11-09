@@ -96,7 +96,7 @@ ggplot(clean_survey, aes(x=DE_BIN, y=current_reject_score)) + geom_boxplot()
 ggplot(clean_survey, aes(x=DE_BIN, y=current_vict_score)) + geom_boxplot()
 ggplot(clean_years_survey, aes(x=DE_BIN, y=years_to_trans)) + geom_boxplot()
 ggplot(clean_stress_survey, aes(x=stress, fill = DE_BIN)) + geom_bar()
-ggplot(clean_stress_survey, aes(x=nonaffirm, fill = DE_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
+ggplot(clean_nonaffirm_survey, aes(x=nonaffirm, fill = DE_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
 
 
 ```
@@ -157,5 +157,132 @@ ggplot(clean_sort_survey, aes(x=compulsion, fill = trans_sort)) + geom_bar()
 
 
 ```
+```{r, functions counts}
+clean_survey %>%
+  filter(lose_weight == "yes") %>%
+  select(ResponseId) %>%
+  tally
+
+clean_survey %>%
+  filter(change_shape == "yes") %>%
+  select(ResponseId) %>%
+  tally
+
+clean_survey %>%
+  filter(lose_weight == "yes") %>%
+  select(ResponseId) %>%
+  tally
+
+clean_survey %>%
+  filter(increase_muscle == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(decrease_muscle == "yes") %>%
+  select(ResponseId) %>%
+  tally
+
+clean_survey %>%
+  filter(curves_bigger == "yes") %>%
+  select(ResponseId) %>%
+  tally 
+
+clean_survey %>%
+  filter(curves_smaller == "yes") %>%
+  select(ResponseId) %>%
+  tally
+
+clean_survey %>%
+  filter(society_weight == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(society_shape == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(society_gender == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(attractive == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(weight_sport == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(body_sport == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(dysphoria == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(passing_comfort == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(passing_safety == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(no_hormones == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(no_surgery == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(no_periods == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(anxiety == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(depression == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(trauma == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(numb_pain == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(control == "yes") %>%
+  select(ResponseId) %>%
+  tally
+  
+clean_survey %>%
+  filter(compulsion == "yes") %>%
+  select(ResponseId) %>%
+  tally
+```
+
 
 
