@@ -122,6 +122,76 @@ summary(DE_current_vict_anova)
 ```
 
 ```{r, function tests}
+change_shape_trans_table <- table(clean_trans_survey$change_shape, clean_trans_survey$trans)
+chisq.test(change_shape_trans_table, correct=FALSE)
 
+increase_muscle_sort_table <- table(clean_sort_survey$increase_muscle, clean_sort_survey$trans_sort)
+chisq.test(increase_muscle_sort_table, correct=FALSE)
+
+curves_smaller_trans_table <- table(clean_trans_survey$curves_smaller, clean_trans_survey$trans)
+chisq.test(curves_smaller_trans_table, correct=FALSE)
+
+curves_smaller_sort_table <- table(clean_sort_survey$curves_smaller, clean_sort_survey$trans_sort)
+chisq.test(curves_smaller_sort_table, correct=FALSE)
+
+society_weight_sort_table <- table(clean_sort_survey$society_weight, clean_sort_survey$trans_sort)
+chisq.test(society_weight_sort_table, correct=FALSE)
+
+society_shape_sort_table <- table(clean_sort_survey$society_shape, clean_sort_survey$trans_sort)
+chisq.test(society_shape_sort_table, correct=FALSE)
+
+society_gender_trans_table <- table(clean_trans_survey$society_gender, clean_trans_survey$trans)
+chisq.test(society_gender_trans_table, correct=FALSE)
+
+society_gender_sort_table <- table(clean_sort_survey$society_gender, clean_sort_survey$trans_sort)
+chisq.test(society_gender_sort_table, correct=FALSE)
+
+attractive_sort_table <- table(clean_sort_survey$attractive, clean_sort_survey$trans_sort)
+chisq.test(attractive_sort_table, correct=FALSE)
+
+dysphoria_trans_table <- table(clean_trans_survey$dysphoria, clean_trans_survey$trans)
+chisq.test(dysphoria_trans_table, correct=FALSE)
+
+dysphoria_sort_table <- table(clean_sort_survey$dysphoria, clean_sort_survey$trans_sort)
+chisq.test(dysphoria_sort_table, correct=FALSE)
+
+passing_comfort_trans_table <- table(clean_trans_survey$passing_comfort, clean_trans_survey$trans)
+chisq.test(passing_comfort_trans_table, correct=FALSE)
+
+passing_comfort_sort_table <- table(clean_sort_survey$passing_comfort, clean_sort_survey$trans_sort)
+chisq.test(passing_comfort_sort_table, correct=FALSE)
+
+passing_safety_trans_table <- table(clean_trans_survey$passing_safety, clean_trans_survey$trans)
+chisq.test(passing_safety_trans_table, correct=FALSE)
+
+passing_safety_sort_table <- table(clean_sort_survey$passing_safety, clean_sort_survey$trans_sort)
+chisq.test(passing_safety_sort_table, correct=FALSE)
+
+no_hormones_trans_table <- table(clean_trans_survey$no_hormones, clean_trans_survey$trans)
+chisq.test(no_hormones_trans_table, correct=FALSE)
+
+no_hormones_sort_table <- table(clean_sort_survey$no_hormones, clean_sort_survey$trans_sort)
+chisq.test(no_hormones_sort_table, correct=FALSE)
+
+no_surgery_trans_table <- table(clean_trans_survey$no_surgery, clean_trans_survey$trans)
+chisq.test(no_surgery_trans_table, correct=FALSE)
+
+no_surgery_sort_table <- table(clean_sort_survey$no_surgery, clean_sort_survey$trans_sort)
+chisq.test(no_surgery_sort_table, correct=FALSE)
+
+no_periods_sort_table <- table(clean_sort_survey$no_periods, clean_sort_survey$trans_sort)
+chisq.test(no_periods_sort_table, correct=FALSE)
+
+anxiety_trans_table <- table(clean_trans_survey$anxiety, clean_trans_survey$trans)
+chisq.test(anxiety_trans_table, correct=FALSE)
+
+depression_trans_table <- table(clean_trans_survey$depression, clean_trans_survey$trans)
+chisq.test(depression_trans_table, correct=FALSE)
+
+depression_sort_table <- table(clean_sort_survey$depression, clean_sort_survey$trans_sort)
+chisq.test(depression_sort_table, correct=FALSE)
+
+trauma_trans_table <- table(clean_trans_survey$trauma, clean_trans_survey$trans)
+chisq.test(trauma_trans_table, correct=FALSE)
 ```
 
