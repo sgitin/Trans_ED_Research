@@ -194,4 +194,19 @@ chisq.test(depression_sort_table, correct=FALSE)
 trauma_trans_table <- table(clean_trans_survey$trauma, clean_trans_survey$trans)
 chisq.test(trauma_trans_table, correct=FALSE)
 ```
+```{r, diagnosis breakdown}
+clean_cis_ed_dx <- cis_ed_dx %>%
+  filter(cis_ed_dx!="pica_cis_dx" && cis_ed_dx!="rumination_cis_dx")
+
+clean_trans_ed_dx <- trans_ed_dx %>%
+  filter(trans_ed_dx!="pica_trans_dx" && trans_ed_dx!="rumination_trans_dx")
+
+# prop.test( clean_cis_ed_dx$cis_ed_dx_prop, clean_trans_ed_dx$trans_ed_dx_prop)
+
+ed_dx_table <- table(cis_ed_dx$cis_ed_dx_prop, trans_ed_dx$trans_ed_dx_prop)
+chisq.test(ed_dx_table, correct=FALSE)
+
+clean_ed_dx_table <- table(clean_cis_ed_dx$cis_ed_dx_prop, clean_trans_ed_dx$trans_ed_dx_prop)
+chisq.test(clean_ed_dx_table, correct=FALSE)
+```
 
