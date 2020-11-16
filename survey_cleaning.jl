@@ -684,4 +684,143 @@ for row in 1:length(ED_bin_df[!, 115])
 end
 
 CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv", ED_bin_df)
+
+#create new dataframe to keep track of totals for ED dx and self-id stratified by trans vs cis
+dx_id_df = DataFrame()
+
+dx_id_df.cis_ed_dx = ["pica_cis_dx", "rumination_cis_dx", "arfid_cis_dx", "anorexia_cis_dx", "bulimia_cis_dx", "binge_cis_dx", "osfed_cis_dx", "ufed_cis_dx", "other_cis_dx"]
+dx_id_df.cis_ed_dx_value = [0,0,0,0,0,0,0,0,0]
+dx_id_df.unsure_ed_dx = ["pica_unsure_dx", "rumination_unsure_dx", "arfid_unsure_dx", "anorexia_unsure_dx", "bulimia_unsure_dx", "binge_unsure_dx", "osfed_unsure_dx", "ufed_unsure_dx", "other_unsure_dx"]
+dx_id_df.unsure_ed_dx_value = [0,0,0,0,0,0,0,0,0]
+dx_id_df.trans_ed_dx = ["pica_trans_dx", "rumination_trans_dx", "arfid_trans_dx", "anorexia_trans_dx", "bulimia_trans_dx", "binge_trans_dx", "osfed_trans_dx", "ufed_trans_dx", "other_trans_dx"]
+dx_id_df.trans_ed_dx_value = [0,0,0,0,0,0,0,0,0]
+dx_id_df.cis_ed_id = ["pica_cis_id", "rumination_cis_id", "arfid_cis_id", "anorexia_cis_id", "bulimia_cis_id", "binge_cis_id", "osfed_cis_id", "ufed_cis_id", "other_cis_id"]
+dx_id_df.cis_ed_id_value = [0,0,0,0,0,0,0,0,0]
+dx_id_df.unsure_ed_id = ["pica_unsure_id", "rumination_unsure_id", "arfid_unsure_id", "anorexia_unsure_id", "bulimia_unsure_id", "binge_unsure_id", "osfed_unsure_id", "ufed_unsure_id", "other_unsure_id"]
+dx_id_df.unsure_ed_id_value = [0,0,0,0,0,0,0,0,0]
+dx_id_df.trans_ed_id = ["pica_trans_id", "rumination_trans_id", "arfid_trans_id", "anorexia_trans_id", "bulimia_trans_id", "binge_trans_id", "osfed_trans_id", "ufed_trans_id", "other_trans_id"]
+dx_id_df.trans_ed_id_value = [0,0,0,0,0,0,0,0,0]
+
+
+#iterate through ED dx question to fill out dx_id_df columns
+for row in 1:length(ED_bin_df[!, 14])
+    if occursin("Pica", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[1, 2] += 1
+    elseif occursin("Pica", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[1, 4] += 1
+    elseif occursin("Pica", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[1, 6] += 1
+    elseif occursin("Rumination Disorder", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[2, 2] += 1
+    elseif occursin("Rumination Disorder", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[2, 4] += 1
+    elseif occursin("Rumination Disorder", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[2, 6] += 1
+    elseif occursin("ARFID", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[3, 2] += 1
+    elseif occursin("ARFID", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[3, 4] += 1
+    elseif occursin("ARFID", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[3, 6] += 1
+    elseif occursin("Anorexia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[4, 2] += 1
+    elseif occursin("Anorexia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[4, 4] += 1
+    elseif occursin("Anorexia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[4, 6] += 1
+    elseif occursin("Bulimia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[5, 2] += 1
+    elseif occursin("Bulimia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[5, 4] += 1
+    elseif occursin("Bulimia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[5, 6] += 1
+    elseif occursin("Binge", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[6, 2] += 1
+    elseif occursin("Binge", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[6, 4] += 1
+    elseif occursin("Binge", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[6, 6] += 1
+    elseif occursin("OSFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[7, 2] += 1
+    elseif occursin("OSFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[7, 4] += 1
+    elseif occursin("OSFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[7, 6] += 1
+    elseif occursin("UFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[8, 2] += 1
+    elseif occursin("UFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[8, 4] += 1
+    elseif occursin("UFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[8, 6] += 1
+    elseif occursin("Other", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[9, 2] += 1
+    elseif occursin("Other", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[9, 4] += 1
+    elseif occursin("Other", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[9, 6] += 1
+    end
+end
+
+#iterate through ED self-id question to fill out dx_id_df columns
+for row in 1:length(ED_bin_df[!, 15])
+    if occursin("Pica", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[1, 8] += 1
+    elseif occursin("Pica", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[1, 10] += 1
+    elseif occursin("Pica", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[1, 12] += 1
+    elseif occursin("Rumination", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[2, 8] += 1
+    elseif occursin("Rumination", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[2, 10] += 1
+    elseif occursin("Rumination", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[2, 12] += 1
+    elseif occursin("ARFID", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[3, 8] += 1
+    elseif occursin("ARFID", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[3, 10] += 1
+    elseif occursin("ARFID", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[3, 12] += 1
+    elseif occursin("Anorexia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[4, 8] += 1
+    elseif occursin("Anorexia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[4, 10] += 1
+    elseif occursin("Anorexia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[4, 12] += 1
+    elseif occursin("Bulimia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[5, 8] += 1
+    elseif occursin("Bulimia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[5, 10] += 1
+    elseif occursin("Bulimia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[5, 12] += 1
+    elseif occursin("Binge", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[6, 8] += 1
+    elseif occursin("Binge", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[6, 10] += 1
+    elseif occursin("Binge", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[6, 12] += 1
+    elseif occursin("OSFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[7, 8] += 1
+    elseif occursin("OSFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[7, 10] += 1
+    elseif occursin("OSFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[7, 12] += 1
+    elseif occursin("UFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[8, 8] += 1
+    elseif occursin("UFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[8, 10] += 1
+    elseif occursin("UFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[8, 12] += 1
+    elseif occursin("Other", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
+        dx_id_df[9, 8] += 1
+    elseif occursin("Other", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
+        dx_id_df[9, 10] += 1
+    elseif occursin("Other", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
+        dx_id_df[9, 12] += 1
+    end
+end
+
+
+
+CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/ed_dx_id.csv", dx_id_df)
  
