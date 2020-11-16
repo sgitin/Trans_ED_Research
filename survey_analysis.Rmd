@@ -20,9 +20,20 @@ clean_clothes_survey <- clean_survey %>%
   filter(clothes != "missing")
 clean_EDtranscomp_survey <- clean_survey %>%
   filter(ED_transcomp != "missing")
+clean_clothes_trans_survey <- clean_clothes_survey %>%
+  filter(trans != "missing")
 
 ggplot(clean_clothes_survey, aes(x=clothes, fill = ED_BIN)) + geom_bar()
 ggplot(clean_EDtranscomp_survey, aes(x=ED_transcomp)) + geom_bar()+ theme(axis.text.x=element_text(angle = -90, hjust = 0))
+
+ggplot(clean_clothes_trans_survey, aes(x=clothes, fill = trans)) + geom_bar()
+
+clothes_proportions <- clean_clothes_survey %>%
+  group_by(clothes) %>%
+  summarise(n = n()) %>%
+  mutate(clothes_prop = (n)/sum(n))
+
+clothes_proportions
 
 ```
 
@@ -158,130 +169,220 @@ ggplot(clean_sort_survey, aes(x=compulsion, fill = trans_sort)) + geom_bar()
 
 ```
 ```{r, functions counts}
-clean_survey %>%
-  filter(lose_weight == "yes") %>%
-  select(ResponseId) %>%
-  tally
+lose_weight_prop <- clean_survey %>%
+  group_by(trans, lose_weight) %>%
+  summarise(n = n()) %>%
+  mutate(lose_weight_prop = (n)/sum(n))
+lose_weight_prop
 
-clean_survey %>%
-  filter(change_shape == "yes") %>%
-  select(ResponseId) %>%
-  tally
+change_shape_prop <- clean_survey %>%
+  group_by(trans, change_shape) %>%
+  summarise(n = n()) %>%
+  mutate(change_shape_prop = (n)/sum(n))
+change_shape_prop
 
-clean_survey %>%
-  filter(lose_weight == "yes") %>%
-  select(ResponseId) %>%
-  tally
+increase_muscle_prop <- clean_survey %>%
+  group_by(trans, increase_muscle) %>%
+  summarise(n = n()) %>%
+  mutate(increase_muscle_prop = (n)/sum(n))
+increase_muscle_prop
 
-clean_survey %>%
-  filter(increase_muscle == "yes") %>%
-  select(ResponseId) %>%
-  tally
+decrease_muscle_prop <- clean_survey %>%
+  group_by(trans, decrease_muscle) %>%
+  summarise(n = n()) %>%
+  mutate(decrease_muscle_prop = (n)/sum(n))
+decrease_muscle_prop
   
-clean_survey %>%
-  filter(decrease_muscle == "yes") %>%
-  select(ResponseId) %>%
-  tally
+curves_bigger_prop <- clean_survey %>%
+  group_by(trans, curves_bigger) %>%
+  summarise(n = n()) %>%
+  mutate(curves_bigger_prop = (n)/sum(n))
+curves_bigger_prop
 
-clean_survey %>%
-  filter(curves_bigger == "yes") %>%
-  select(ResponseId) %>%
-  tally 
+curves_smaller_prop <- clean_survey %>%
+  group_by(trans, curves_smaller) %>%
+  summarise(n = n()) %>%
+  mutate(curves_smaller_prop = (n)/sum(n))
+curves_smaller_prop
 
-clean_survey %>%
-  filter(curves_smaller == "yes") %>%
-  select(ResponseId) %>%
-  tally
+society_weight_prop <- clean_survey %>%
+  group_by(trans, society_weight) %>%
+  summarise(n = n()) %>%
+  mutate(society_weight_prop = (n)/sum(n))
+society_weight_prop
 
-clean_survey %>%
-  filter(society_weight == "yes") %>%
-  select(ResponseId) %>%
-  tally
+society_shape_prop <- clean_survey %>%
+  group_by(trans, society_shape) %>%
+  summarise(n = n()) %>%
+  mutate(society_shape_prop = (n)/sum(n))
+society_shape_prop
   
-clean_survey %>%
-  filter(society_shape == "yes") %>%
-  select(ResponseId) %>%
-  tally
+society_gender_prop <- clean_survey %>%
+  group_by(trans, society_gender) %>%
+  summarise(n = n()) %>%
+  mutate(society_gender_prop = (n)/sum(n))
+society_gender_prop
   
-clean_survey %>%
-  filter(society_gender == "yes") %>%
-  select(ResponseId) %>%
-  tally
+attractive_prop <- clean_survey %>%
+  group_by(trans, attractive) %>%
+  summarise(n = n()) %>%
+  mutate(attractive_prop = (n)/sum(n))
+attractive_prop
   
-clean_survey %>%
-  filter(attractive == "yes") %>%
-  select(ResponseId) %>%
-  tally
+weight_sport_prop <- clean_survey %>%
+  group_by(trans, weight_sport) %>%
+  summarise(n = n()) %>%
+  mutate(weight_sport_prop = (n)/sum(n))
+weight_sport_prop
   
-clean_survey %>%
-  filter(weight_sport == "yes") %>%
-  select(ResponseId) %>%
-  tally
+body_sport_prop <- clean_survey %>%
+  group_by(trans, body_sport) %>%
+  summarise(n = n()) %>%
+  mutate(body_sport_prop = (n)/sum(n))
+body_sport_prop
+
+dysphoria_prop <- clean_survey %>%
+  group_by(trans, dysphoria) %>%
+  summarise(n = n()) %>%
+  mutate(dysphoria_prop = (n)/sum(n))
+dysphoria_prop
   
-clean_survey %>%
-  filter(body_sport == "yes") %>%
-  select(ResponseId) %>%
-  tally
+passing_comfort_prop <- clean_survey %>%
+  group_by(trans, passing_comfort) %>%
+  summarise(n = n()) %>%
+  mutate(passing_comfort_prop = (n)/sum(n))
+passing_comfort_prop
+
+passing_safety_prop <- clean_survey %>%
+  group_by(trans, passing_safety) %>%
+  summarise(n = n()) %>%
+  mutate(passing_safety_prop = (n)/sum(n))
+passing_safety_prop
   
-clean_survey %>%
-  filter(dysphoria == "yes") %>%
-  select(ResponseId) %>%
-  tally
+no_hormones_prop <- clean_survey %>%
+  group_by(trans, no_hormones) %>%
+  summarise(n = n()) %>%
+  mutate(no_hormones_prop = (n)/sum(n))
+no_hormones_prop
   
-clean_survey %>%
-  filter(passing_comfort == "yes") %>%
-  select(ResponseId) %>%
-  tally
+no_surgery_prop <- clean_survey %>%
+  group_by(trans, no_surgery) %>%
+  summarise(n = n()) %>%
+  mutate(no_surgery_prop = (n)/sum(n))
+no_surgery_prop
   
-clean_survey %>%
-  filter(passing_safety == "yes") %>%
-  select(ResponseId) %>%
-  tally
+no_periods_prop <- clean_survey %>%
+  group_by(trans, no_periods) %>%
+  summarise(n = n()) %>%
+  mutate(no_periods_prop = (n)/sum(n))
+no_periods_prop
   
-clean_survey %>%
-  filter(no_hormones == "yes") %>%
-  select(ResponseId) %>%
-  tally
+anxiety_prop <- clean_survey %>%
+  group_by(trans, anxiety) %>%
+  summarise(n = n()) %>%
+  mutate(anxiety_prop = (n)/sum(n))
+anxiety_prop
   
-clean_survey %>%
-  filter(no_surgery == "yes") %>%
-  select(ResponseId) %>%
-  tally
+depression_prop <- clean_survey %>%
+  group_by(trans, depression) %>%
+  summarise(n = n()) %>%
+  mutate(depression_prop = (n)/sum(n))
+depression_prop
   
-clean_survey %>%
-  filter(no_periods == "yes") %>%
-  select(ResponseId) %>%
-  tally
+trauma_prop <- clean_survey %>%
+  group_by(trans, trauma) %>%
+  summarise(n = n()) %>%
+  mutate(trauma_prop = (n)/sum(n))
+trauma_prop
   
-clean_survey %>%
-  filter(anxiety == "yes") %>%
-  select(ResponseId) %>%
-  tally
+numb_pain_prop <- clean_survey %>%
+  group_by(trans, numb_pain) %>%
+  summarise(n = n()) %>%
+  mutate(numb_pain_prop = (n)/sum(n))
+numb_pain_prop
+
+control_prop <- clean_survey %>%
+  group_by(trans, control) %>%
+  summarise(n = n()) %>%
+  mutate(control_prop = (n)/sum(n))
+control_prop
   
-clean_survey %>%
-  filter(depression == "yes") %>%
-  select(ResponseId) %>%
-  tally
-  
-clean_survey %>%
-  filter(trauma == "yes") %>%
-  select(ResponseId) %>%
-  tally
-  
-clean_survey %>%
-  filter(numb_pain == "yes") %>%
-  select(ResponseId) %>%
-  tally
-  
-clean_survey %>%
-  filter(control == "yes") %>%
-  select(ResponseId) %>%
-  tally
-  
-clean_survey %>%
-  filter(compulsion == "yes") %>%
-  select(ResponseId) %>%
-  tally
+compulsion_prop <- clean_survey %>%
+  group_by(trans, compulsion) %>%
+  summarise(n = n()) %>%
+  mutate(compulsion_prop = (n)/sum(n))
+compulsion_prop
+
+```
+
+```{r, ed dx, ed self-id}
+ed_dx_id <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/ed_dx_id.csv")
+
+ggplot(ed_dx_id, aes(x="", y=cis_ed_dx_value, fill=cis_ed_dx)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=unsure_ed_dx_value, fill=unsure_ed_dx)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=trans_ed_dx_value, fill=trans_ed_dx)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=cis_ed_id_value, fill=cis_ed_id)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=unsure_ed_id_value, fill=unsure_ed_id)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=trans_ed_id_value, fill=trans_ed_id)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+
+```
+```{r}
+cis_ed_dx <- ed_dx_id %>%
+  mutate(cis_ed_dx_prop = cis_ed_dx_value/sum(ed_dx_id[1:9, 2])) %>%
+  group_by(cis_ed_dx, cis_ed_dx_prop) %>%
+  summarize()
+
+cis_ed_dx
+
+unsure_ed_dx <- ed_dx_id %>%
+  mutate(unsure_ed_dx_prop = unsure_ed_dx_value/sum(ed_dx_id[1:9, 4])) %>%
+  group_by(unsure_ed_dx, unsure_ed_dx_prop) %>%
+  summarize()
+
+trans_ed_dx <- ed_dx_id %>%
+  mutate(trans_ed_dx_prop = trans_ed_dx_value/sum(ed_dx_id[1:9, 6])) %>%
+  group_by(trans_ed_dx, trans_ed_dx_prop) %>%
+  summarize()
+
+trans_ed_dx
+
+cis_ed_id <- ed_dx_id %>%
+  mutate(cis_ed_id_prop = cis_ed_id_value/sum(ed_dx_id[1:9, 8])) %>%
+  group_by(cis_ed_id, cis_ed_id_prop) %>%
+  summarize()
+
+cis_ed_id
+
+unsure_ed_id <- ed_dx_id %>%
+  mutate(unsure_ed_id_prop = unsure_ed_id_value/sum(ed_dx_id[1:9, 10])) %>%
+  group_by(unsure_ed_id, unsure_ed_id_prop) %>%
+  summarize()
+
+trans_ed_id <- ed_dx_id %>%
+  mutate(trans_ed_id_prop = trans_ed_id_value/sum(ed_dx_id[1:9, 12])) %>%
+  group_by(trans_ed_id, trans_ed_id_prop) %>%
+  summarize()
+
+trans_ed_id
+
 ```
 
 
