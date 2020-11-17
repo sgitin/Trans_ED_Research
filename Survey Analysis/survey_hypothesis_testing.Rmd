@@ -1,0 +1,209 @@
+---
+title: "Survey Hypothesis Tests"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(data.table)
+library(formattable)
+library(gridExtra)
+clean_survey <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv")
+```
+```{r}
+clean_clothes_survey <- clean_survey %>%
+  filter(clothes != "missing")
+clean_trans_survey <- clean_survey %>%
+  filter(trans != "missing")
+clean_sort_survey <- clean_survey %>%
+  filter(trans_sort != "N/A")
+clean_trans_score_survey <- clean_survey %>%
+  filter(trans_score != 0)
+clean_SO_survey <- clean_survey %>%
+  filter(SO_score != 0)
+clean_Fam_survey <- clean_survey %>%
+  filter(Fam_score != 0)
+clean_Fri_survey <- clean_survey %>%
+  filter(Fri_score != 0)
+clean_Total_survey <- clean_survey %>%
+  filter(Total_score != 0)
+clean_disc_survey <- clean_survey %>%
+  filter(disc_score != 0)
+clean_reject_survey <- clean_survey %>%
+  filter(reject_score != 0)
+clean_vict_survey <- clean_survey %>%
+  filter(vict_score != 0)
+clean_years_survey <- clean_survey %>%
+  filter(years_to_trans >= 0)
+clean_pride_survey <- clean_survey %>%
+  filter(pride != "missing")
+clean_attraction_survey <- clean_survey %>%
+  filter(attraction != "missing")
+clean_stress_survey <- clean_survey %>%
+  filter(stress != "missing")
+clean_nonaffirm_survey <- clean_survey %>%
+  filter(nonaffirm != "missing")
+```
+
+```{r, chi sq}
+clothes_table <- table(clean_clothes_survey$clothes, clean_clothes_survey$ED_BIN)
+chisq.test(clothes_table, correct=FALSE)
+
+clothes_trans_table <- table(clean_clothes_trans_survey$clothes, clean_clothes_trans_survey$trans)
+chisq.test(clothes_trans_table, correct=FALSE)
+
+trans_sort_table <- table(clean_sort_survey$trans_sort, clean_sort_survey$ED_BIN)
+chisq.test(trans_sort_table, correct=FALSE)
+
+psych_table <- table(clean_survey$psych_BIN, clean_survey$ED_BIN)
+chisq.test(psych_table, correct=FALSE)
+
+future_affirm_table <- table(clean_survey$future_affirm_BIN, clean_survey$DE_BIN)
+chisq.test(future_affirm_table, correct=FALSE)
+
+stress_table <- table(clean_stress_survey$stress, clean_stress_survey$DE_BIN)
+chisq.test(stress_table, correct=FALSE)
+
+
+```
+```{r, ANOVA}
+ED_SO_anova <- aov(SO_score~ED_BIN, data=clean_SO_survey)
+summary(ED_SO_anova)
+
+ED_Fam_anova <- aov(Fam_score~ED_BIN, data=clean_Fam_survey)
+summary(ED_Fam_anova)
+
+ED_Fri_anova <- aov(Fri_score~ED_BIN, data=clean_Fri_survey)
+summary(ED_Fri_anova)
+
+ED_Total_anova <- aov(Total_score~ED_BIN, data=clean_Total_survey)
+summary(ED_Total_anova)
+
+ED_disc_anova <- aov(disc_score~ED_BIN, data=clean_survey)
+summary(ED_disc_anova)
+
+ED_reject_anova <- aov(reject_score~ED_BIN, data=clean_survey)
+summary(ED_reject_anova)
+
+ED_vict_anova <- aov(vict_score~ED_BIN, data=clean_survey)
+summary(ED_vict_anova)
+
+DE_SO_anova <- aov(SO_score~DE_BIN, data=clean_SO_survey)
+summary(DE_SO_anova)
+
+DE_Fam_anova <- aov(Fam_score~DE_BIN, data=clean_Fam_survey)
+summary(DE_Fam_anova)
+
+DE_Fri_anova <- aov(Fri_score~DE_BIN, data=clean_Fri_survey)
+summary(DE_Fri_anova)
+
+DE_Total_anova <- aov(Total_score~DE_BIN, data=clean_Total_survey)
+summary(DE_Total_anova)
+
+DE_disc_anova <- aov(disc_score~DE_BIN, data=clean_survey)
+summary(DE_disc_anova)
+
+DE_reject_anova <- aov(reject_score~DE_BIN, data=clean_survey)
+summary(DE_reject_anova)
+
+DE_vict_anova <- aov(vict_score~DE_BIN, data=clean_survey)
+summary(DE_vict_anova)
+
+DE_current_disc_anova <- aov(current_disc_score~DE_BIN, data=clean_survey)
+summary(DE_current_disc_anova)
+
+DE_current_reject_anova <- aov(current_reject_score~DE_BIN, data=clean_survey)
+summary(DE_current_reject_anova)
+
+DE_current_vict_anova <- aov(current_vict_score~DE_BIN, data=clean_survey)
+summary(DE_current_vict_anova)
+```
+
+```{r, function tests}
+change_shape_trans_table <- table(clean_trans_survey$change_shape, clean_trans_survey$trans)
+chisq.test(change_shape_trans_table, correct=FALSE)
+
+increase_muscle_sort_table <- table(clean_sort_survey$increase_muscle, clean_sort_survey$trans_sort)
+chisq.test(increase_muscle_sort_table, correct=FALSE)
+
+curves_smaller_trans_table <- table(clean_trans_survey$curves_smaller, clean_trans_survey$trans)
+chisq.test(curves_smaller_trans_table, correct=FALSE)
+
+curves_smaller_sort_table <- table(clean_sort_survey$curves_smaller, clean_sort_survey$trans_sort)
+chisq.test(curves_smaller_sort_table, correct=FALSE)
+
+society_weight_sort_table <- table(clean_sort_survey$society_weight, clean_sort_survey$trans_sort)
+chisq.test(society_weight_sort_table, correct=FALSE)
+
+society_shape_sort_table <- table(clean_sort_survey$society_shape, clean_sort_survey$trans_sort)
+chisq.test(society_shape_sort_table, correct=FALSE)
+
+society_gender_trans_table <- table(clean_trans_survey$society_gender, clean_trans_survey$trans)
+chisq.test(society_gender_trans_table, correct=FALSE)
+
+society_gender_sort_table <- table(clean_sort_survey$society_gender, clean_sort_survey$trans_sort)
+chisq.test(society_gender_sort_table, correct=FALSE)
+
+attractive_sort_table <- table(clean_sort_survey$attractive, clean_sort_survey$trans_sort)
+chisq.test(attractive_sort_table, correct=FALSE)
+
+dysphoria_trans_table <- table(clean_trans_survey$dysphoria, clean_trans_survey$trans)
+chisq.test(dysphoria_trans_table, correct=FALSE)
+
+dysphoria_sort_table <- table(clean_sort_survey$dysphoria, clean_sort_survey$trans_sort)
+chisq.test(dysphoria_sort_table, correct=FALSE)
+
+passing_comfort_trans_table <- table(clean_trans_survey$passing_comfort, clean_trans_survey$trans)
+chisq.test(passing_comfort_trans_table, correct=FALSE)
+
+passing_comfort_sort_table <- table(clean_sort_survey$passing_comfort, clean_sort_survey$trans_sort)
+chisq.test(passing_comfort_sort_table, correct=FALSE)
+
+passing_safety_trans_table <- table(clean_trans_survey$passing_safety, clean_trans_survey$trans)
+chisq.test(passing_safety_trans_table, correct=FALSE)
+
+passing_safety_sort_table <- table(clean_sort_survey$passing_safety, clean_sort_survey$trans_sort)
+chisq.test(passing_safety_sort_table, correct=FALSE)
+
+no_hormones_trans_table <- table(clean_trans_survey$no_hormones, clean_trans_survey$trans)
+chisq.test(no_hormones_trans_table, correct=FALSE)
+
+no_hormones_sort_table <- table(clean_sort_survey$no_hormones, clean_sort_survey$trans_sort)
+chisq.test(no_hormones_sort_table, correct=FALSE)
+
+no_surgery_trans_table <- table(clean_trans_survey$no_surgery, clean_trans_survey$trans)
+chisq.test(no_surgery_trans_table, correct=FALSE)
+
+no_surgery_sort_table <- table(clean_sort_survey$no_surgery, clean_sort_survey$trans_sort)
+chisq.test(no_surgery_sort_table, correct=FALSE)
+
+no_periods_sort_table <- table(clean_sort_survey$no_periods, clean_sort_survey$trans_sort)
+chisq.test(no_periods_sort_table, correct=FALSE)
+
+anxiety_trans_table <- table(clean_trans_survey$anxiety, clean_trans_survey$trans)
+chisq.test(anxiety_trans_table, correct=FALSE)
+
+depression_trans_table <- table(clean_trans_survey$depression, clean_trans_survey$trans)
+chisq.test(depression_trans_table, correct=FALSE)
+
+depression_sort_table <- table(clean_sort_survey$depression, clean_sort_survey$trans_sort)
+chisq.test(depression_sort_table, correct=FALSE)
+
+trauma_trans_table <- table(clean_trans_survey$trauma, clean_trans_survey$trans)
+chisq.test(trauma_trans_table, correct=FALSE)
+```
+```{r, diagnosis breakdown}
+prop.test(ed_dx_id$trans_ed_dx_value, ed_dx_id$total_ed_dx_value)
+prop.test(ed_dx_id$unsure_ed_dx_value, ed_dx_id$total_ed_dx_value)
+prop.test(ed_dx_id$cis_ed_dx_value, ed_dx_id$total_ed_dx_value)
+prop.test(ed_dx_id$trans_ed_id_value, ed_dx_id$total_ed_id_value)
+prop.test(ed_dx_id$unsure_ed_id_value, ed_dx_id$total_ed_id_value)
+prop.test(ed_dx_id$cis_ed_id_value, ed_dx_id$total_ed_id_value)
+
+```
+
