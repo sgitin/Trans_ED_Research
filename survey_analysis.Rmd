@@ -313,6 +313,25 @@ compulsion_prop <- clean_survey %>%
   mutate(compulsion_prop = (n)/sum(n))
 compulsion_prop
 
+increase_muscle_sort_prop <- clean_sort_survey %>%
+  group_by(trans_sort, increase_muscle) %>%
+  summarise(n = n()) %>%
+  mutate(increase_muscle_prop = (n)/sum(n))
+increase_muscle_sort_prop
+
+curves_smaller_sort_prop <- clean_sort_survey %>%
+  group_by(trans_sort, curves_smaller) %>%
+  summarise(n = n()) %>%
+  mutate(curves_smaller_prop = (n)/sum(n))
+curves_smaller_sort_prop
+
+passing_safety_sort_prop <- clean_sort_survey %>%
+  group_by(trans_sort, passing_safety) %>%
+  summarise(n = n()) %>%
+  mutate(passing_safety_prop = (n)/sum(n))
+passing_safety_sort_prop
+
+
 ```
 
 ```{r, ed dx, ed self-id}
@@ -384,6 +403,28 @@ trans_ed_id <- ed_dx_id %>%
 trans_ed_id
 
 ```
+```{r, demographics}
+age <- clean_survey %>%
+  group_by(age) %>%
+  summarise(n = n())
+age
+
+class <- clean_survey %>%
+  group_by(class) %>%
+  summarise(n = n())
+class
+
+sex <- clean_survey %>%
+  group_by(sex) %>%
+  summarise(n = n())
+sex
+
+race <- clean_survey %>%
+  group_by(race) %>%
+  summarise(n = n())
+race
+```
+
 
 
 
