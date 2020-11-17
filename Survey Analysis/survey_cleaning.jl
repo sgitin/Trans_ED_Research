@@ -124,10 +124,10 @@ for col in 34:47
     end
 end
 
-## add empty column for 1/0 nonbinary bin 
+## add empty column for nonbinary bin 
 ED_bin_df = insertcols!(ED_bin_df, 78, :enby_BIN => "no", makeunique=false)
 
-## iterate through nonbinary question to change enby bin to 1 if ID more as enby, leave 0 if not
+## iterate through nonbinary question to change enby bin to yes if ID more as enby, leave no if not
 for row in 1:length(ED_bin_df[!, 78])
     if ED_bin_df[row, 5] == "More as a nonbinary trans person"
         ED_bin_df[row, 78] = "yes"
@@ -136,10 +136,10 @@ for row in 1:length(ED_bin_df[!, 78])
     end
 end
 
-## add empty column for 1/0 psych bin 
+## add empty column for psych bin 
 ED_bin_df = insertcols!(ED_bin_df, 79, :psych_BIN => "no", makeunique=false)
 
-## iterate through psych dx questions to change psych bin to 1 if have a psych condition, leave 0 if not
+## iterate through psych dx questions to change psych bin to yes if have a psych condition, leave no if not
 for row in 1:length(ED_bin_df[!, 79])
     if occursin("Depressive Disorder", ED_bin_df[row, 11]) || occursin("Schizophrenia Spectrum Disorder", ED_bin_df[row, 11]) || occursin("Other Psychotic Disorder", ED_bin_df[row, 11]) || occursin("Bipolar Disorder", ED_bin_df[row, 11]) || occursin("Anxiety Disorder", ED_bin_df[row, 11]) || occursin("Panic Disorder", ED_bin_df[row, 11]) || occursin("Obsessive Compulsive and Related Disorder", ED_bin_df[row, 11]) || occursin("Post Traumatic Stress Disorder", ED_bin_df[row, 11]) || occursin("Dissociative Identity Disorder", ED_bin_df[row, 11]) || occursin("Sleep Disorder", ED_bin_df[row, 11]) || occursin("Substance-Related and Addictive Disorder", ED_bin_df[row, 11]) || occursin("Personality Disorder", ED_bin_df[row, 11]) || occursin("Autism Spectrum Disorder", ED_bin_df[row, 11]) || occursin("Other", ED_bin_df[row, 11])
         ED_bin_df[row, 79] = "yes"
@@ -150,10 +150,10 @@ for row in 1:length(ED_bin_df[!, 79])
     end
 end
 
-## add empty column for 1/0 future affirmations bin 
+## add empty column for future affirmations bin 
 ED_bin_df = insertcols!(ED_bin_df, 80, :future_affirm_BIN => "no", makeunique=false)
 
-## iterate through psych dx questions to change psych bin to 1 if have a psych condition, leave 0 if not
+## iterate through future affirmations question to change future affirmations bin to yes if have desired future affirmations, leave no if not
 for row in 1:length(ED_bin_df[!, 80])
     if ED_bin_df[row, 9] != "missing"
         ED_bin_df[row, 80] = "yes"
@@ -479,6 +479,7 @@ end
 ## add empty column for trans fem/trans masc/enby
 ED_bin_df = insertcols!(ED_bin_df, 112, :trans_sort => "N/A", makeunique=false)
 
+# iterate through trans fem, trans masc, and enby columns to fill out trans sort column
 for row in 1:length(ED_bin_df[!, 112])
     if ED_bin_df[row, 78] == "yes"
         ED_bin_df[row, 112] = "nonbinary"
@@ -683,9 +684,11 @@ for row in 1:length(ED_bin_df[!, 115])
     end
 end
 
+
+# put cleaned survey data into new csv
 CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv", ED_bin_df)
 
-#create new dataframe to keep track of totals for ED dx and self-id stratified by trans vs cis
+#create new dataframe to keep track of totals for ED dx and self-id stratified by trans vs cis vs unsure
 dx_id_df = DataFrame()
 
 dx_id_df.cis_ed_dx = ["pica_cis_dx", "rumination_cis_dx", "arfid_cis_dx", "anorexia_cis_dx", "bulimia_cis_dx", "binge_cis_dx", "osfed_cis_dx", "ufed_cis_dx", "other_cis_dx"]
@@ -878,6 +881,6 @@ for row in 1:length(ED_bin_df[!, 15])
 end
 
 
-
+# put ed_dx_id dataframe into a csv for stats analysis
 CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/ed_dx_id.csv", dx_id_df)
  
