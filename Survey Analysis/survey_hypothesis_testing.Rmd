@@ -15,7 +15,9 @@ library(formattable)
 library(gridExtra)
 clean_survey <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv")
 ```
-```{r}
+```{r, clean data}
+#create datasets for each variable that does not include rows with missing data for that variable
+
 clean_clothes_survey <- clean_survey %>%
   filter(clothes != "missing")
 clean_trans_survey <- clean_survey %>%
@@ -51,6 +53,8 @@ clean_nonaffirm_survey <- clean_survey %>%
 ```
 
 ```{r, chi sq}
+# Chi-squared tests for categorical data variables correlated with eating disorder or disordered eating that appeared statistically significant in exploratory data analysis
+
 clothes_table <- table(clean_clothes_survey$clothes, clean_clothes_survey$ED_BIN)
 chisq.test(clothes_table, correct=FALSE)
 
@@ -68,10 +72,11 @@ chisq.test(future_affirm_table, correct=FALSE)
 
 stress_table <- table(clean_stress_survey$stress, clean_stress_survey$DE_BIN)
 chisq.test(stress_table, correct=FALSE)
-
-
 ```
+
 ```{r, ANOVA}
+# ANOVA tests for continuous numerical data variables correlated with eating disorder or disordered eating that appeared statistically significant in exploratory data analysis
+
 ED_SO_anova <- aov(SO_score~ED_BIN, data=clean_SO_survey)
 summary(ED_SO_anova)
 
@@ -125,6 +130,8 @@ summary(DE_current_vict_anova)
 ```
 
 ```{r, function tests}
+# Chi-squared tests to test if function for disordered eating is more common between trans, cis, and unsure, or more common between trans-masc, trans-fem, and nonbinary
+
 change_shape_trans_table <- table(clean_trans_survey$change_shape, clean_trans_survey$trans)
 chisq.test(change_shape_trans_table, correct=FALSE)
 
@@ -198,6 +205,8 @@ trauma_trans_table <- table(clean_trans_survey$trauma, clean_trans_survey$trans)
 chisq.test(trauma_trans_table, correct=FALSE)
 ```
 ```{r, diagnosis breakdown}
+# z-tests to test if proportions of different eating disorders in trans, cis, and unsure groups are statistically significantly different
+
 prop.test(ed_dx_id$trans_ed_dx_value, ed_dx_id$total_ed_dx_value)
 prop.test(ed_dx_id$unsure_ed_dx_value, ed_dx_id$total_ed_dx_value)
 prop.test(ed_dx_id$cis_ed_dx_value, ed_dx_id$total_ed_dx_value)
