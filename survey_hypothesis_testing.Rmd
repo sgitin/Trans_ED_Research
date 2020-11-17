@@ -54,6 +54,9 @@ clean_nonaffirm_survey <- clean_survey %>%
 clothes_table <- table(clean_clothes_survey$clothes, clean_clothes_survey$ED_BIN)
 chisq.test(clothes_table, correct=FALSE)
 
+clothes_trans_table <- table(clean_clothes_trans_survey$clothes, clean_clothes_trans_survey$trans)
+chisq.test(clothes_trans_table, correct=FALSE)
+
 trans_sort_table <- table(clean_sort_survey$trans_sort, clean_sort_survey$ED_BIN)
 chisq.test(trans_sort_table, correct=FALSE)
 
@@ -195,18 +198,12 @@ trauma_trans_table <- table(clean_trans_survey$trauma, clean_trans_survey$trans)
 chisq.test(trauma_trans_table, correct=FALSE)
 ```
 ```{r, diagnosis breakdown}
-clean_cis_ed_dx <- cis_ed_dx %>%
-  filter(cis_ed_dx!="pica_cis_dx" && cis_ed_dx!="rumination_cis_dx")
+prop.test(ed_dx_id$trans_ed_dx_value, ed_dx_id$total_ed_dx_value)
+prop.test(ed_dx_id$unsure_ed_dx_value, ed_dx_id$total_ed_dx_value)
+prop.test(ed_dx_id$cis_ed_dx_value, ed_dx_id$total_ed_dx_value)
+prop.test(ed_dx_id$trans_ed_id_value, ed_dx_id$total_ed_id_value)
+prop.test(ed_dx_id$unsure_ed_id_value, ed_dx_id$total_ed_id_value)
+prop.test(ed_dx_id$cis_ed_id_value, ed_dx_id$total_ed_id_value)
 
-clean_trans_ed_dx <- trans_ed_dx %>%
-  filter(trans_ed_dx!="pica_trans_dx" && trans_ed_dx!="rumination_trans_dx")
-
-# prop.test( clean_cis_ed_dx$cis_ed_dx_prop, clean_trans_ed_dx$trans_ed_dx_prop)
-
-ed_dx_table <- table(cis_ed_dx$cis_ed_dx_prop, trans_ed_dx$trans_ed_dx_prop)
-chisq.test(ed_dx_table, correct=FALSE)
-
-clean_ed_dx_table <- table(clean_cis_ed_dx$cis_ed_dx_prop, clean_trans_ed_dx$trans_ed_dx_prop)
-chisq.test(clean_ed_dx_table, correct=FALSE)
 ```
 
