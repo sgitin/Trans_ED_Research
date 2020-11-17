@@ -700,64 +700,94 @@ dx_id_df.unsure_ed_id = ["pica_unsure_id", "rumination_unsure_id", "arfid_unsure
 dx_id_df.unsure_ed_id_value = [0,0,0,0,0,0,0,0,0]
 dx_id_df.trans_ed_id = ["pica_trans_id", "rumination_trans_id", "arfid_trans_id", "anorexia_trans_id", "bulimia_trans_id", "binge_trans_id", "osfed_trans_id", "ufed_trans_id", "other_trans_id"]
 dx_id_df.trans_ed_id_value = [0,0,0,0,0,0,0,0,0]
-
+dx_id_df.total_ed_dx = ["pica_total_dx", "rumination_total_dx", "arfid_total_dx", "anorexia_total_dx", "bulimia_total_dx", "binge_total_dx", "osfed_total_dx", "ufed_total_dx", "other_total_dx"]
+dx_id_df.total_ed_dx_value = [0,0,0,0,0,0,0,0,0]
+dx_id_df.total_ed_id = ["pica_total_id", "rumination_total_id", "arfid_total_id", "anorexia_total_id", "bulimia_total_id", "binge_total_id", "osfed_total_id", "ufed_total_id", "other_total_id"]
+dx_id_df.total_ed_id_value = [0,0,0,0,0,0,0,0,0]
 
 #iterate through ED dx question to fill out dx_id_df columns
 for row in 1:length(ED_bin_df[!, 14])
     if occursin("Pica", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[1, 2] += 1
+        dx_id_df[1, 14] += 1
     elseif occursin("Pica", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[1, 4] += 1
+        dx_id_df[1, 14] += 1
     elseif occursin("Pica", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[1, 6] += 1
+        dx_id_df[1, 14] += 1
     elseif occursin("Rumination Disorder", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[2, 2] += 1
+        dx_id_df[2, 14] += 1
     elseif occursin("Rumination Disorder", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[2, 4] += 1
+        dx_id_df[2, 14] += 1
     elseif occursin("Rumination Disorder", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[2, 6] += 1
+        dx_id_df[2, 14] += 1
     elseif occursin("ARFID", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[3, 2] += 1
+        dx_id_df[3, 14] += 1
     elseif occursin("ARFID", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[3, 4] += 1
+        dx_id_df[3, 14] += 1
     elseif occursin("ARFID", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[3, 6] += 1
+        dx_id_df[3, 14] += 1
     elseif occursin("Anorexia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[4, 2] += 1
+        dx_id_df[4, 14] += 1
     elseif occursin("Anorexia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[4, 4] += 1
+        dx_id_df[4, 14] += 1
     elseif occursin("Anorexia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[4, 6] += 1
+        dx_id_df[4, 14] += 1
     elseif occursin("Bulimia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[5, 2] += 1
+        dx_id_df[5, 14] += 1
     elseif occursin("Bulimia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[5, 4] += 1
+        dx_id_df[5, 14] += 1
     elseif occursin("Bulimia", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[5, 6] += 1
+        dx_id_df[5, 14] += 1
     elseif occursin("Binge", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[6, 2] += 1
+        dx_id_df[6, 14] += 1
     elseif occursin("Binge", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[6, 4] += 1
+        dx_id_df[6, 14] += 1
     elseif occursin("Binge", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[6, 6] += 1
+        dx_id_df[6, 14] += 1
     elseif occursin("OSFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[7, 2] += 1
+        dx_id_df[7, 14] += 1
     elseif occursin("OSFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[7, 4] += 1
+        dx_id_df[7, 14] += 1
     elseif occursin("OSFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[7, 6] += 1
+        dx_id_df[7, 14] += 1
     elseif occursin("UFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[8, 2] += 1
+        dx_id_df[8, 14] += 1
     elseif occursin("UFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[8, 4] += 1
+        dx_id_df[8, 14] += 1
     elseif occursin("UFED", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[8, 6] += 1
+        dx_id_df[8, 14] += 1
     elseif occursin("Other", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="No"
         dx_id_df[9, 2] += 1
+        dx_id_df[9, 14] += 1
     elseif occursin("Other", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[9, 4] += 1
+        dx_id_df[9, 14] += 1
     elseif occursin("Other", ED_bin_df[row, 14]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[9, 6] += 1
+        dx_id_df[9, 14] += 1
     end
 end
 
@@ -765,58 +795,85 @@ end
 for row in 1:length(ED_bin_df[!, 15])
     if occursin("Pica", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[1, 8] += 1
+        dx_id_df[1, 16] += 1
     elseif occursin("Pica", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[1, 10] += 1
+        dx_id_df[1, 16] += 1
     elseif occursin("Pica", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[1, 12] += 1
+        dx_id_df[1, 16] += 1
     elseif occursin("Rumination", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[2, 8] += 1
+        dx_id_df[2, 16] += 1
     elseif occursin("Rumination", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[2, 10] += 1
+        dx_id_df[2, 16] += 1
     elseif occursin("Rumination", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[2, 12] += 1
+        dx_id_df[2, 16] += 1
     elseif occursin("ARFID", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[3, 8] += 1
+        dx_id_df[3, 16] += 1
     elseif occursin("ARFID", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[3, 10] += 1
+        dx_id_df[3, 16] += 1
     elseif occursin("ARFID", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[3, 12] += 1
+        dx_id_df[3, 16] += 1
     elseif occursin("Anorexia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[4, 8] += 1
+        dx_id_df[4, 16] += 1
     elseif occursin("Anorexia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[4, 10] += 1
+        dx_id_df[4, 16] += 1
     elseif occursin("Anorexia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[4, 12] += 1
+        dx_id_df[4, 16] += 1
     elseif occursin("Bulimia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[5, 8] += 1
+        dx_id_df[5, 16] += 1
     elseif occursin("Bulimia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[5, 10] += 1
+        dx_id_df[5, 16] += 1
     elseif occursin("Bulimia", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[5, 12] += 1
+        dx_id_df[5, 16] += 1
     elseif occursin("Binge", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[6, 8] += 1
+        dx_id_df[6, 16] += 1
     elseif occursin("Binge", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[6, 10] += 1
+        dx_id_df[6, 16] += 1
     elseif occursin("Binge", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[6, 12] += 1
+        dx_id_df[6, 16] += 1
     elseif occursin("OSFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[7, 8] += 1
+        dx_id_df[7, 16] += 1
     elseif occursin("OSFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[7, 10] += 1
+        dx_id_df[7, 16] += 1
     elseif occursin("OSFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[7, 12] += 1
+        dx_id_df[7, 16] += 1
     elseif occursin("UFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[8, 8] += 1
+        dx_id_df[8, 16] += 1
     elseif occursin("UFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[8, 10] += 1
+        dx_id_df[8, 16] += 1
     elseif occursin("UFED", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[8, 12] += 1
+        dx_id_df[8, 16] += 1
     elseif occursin("Other", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="No"
         dx_id_df[9, 8] += 1
+        dx_id_df[9, 16] += 1
     elseif occursin("Other", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Unsure/Questioning"
         dx_id_df[9, 10] += 1
+        dx_id_df[9, 16] += 1
     elseif occursin("Other", ED_bin_df[row, 15]) && ED_bin_df[row, 2]=="Yes"
         dx_id_df[9, 12] += 1
+        dx_id_df[9, 16] += 1
     end
 end
 
