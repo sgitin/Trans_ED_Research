@@ -1,0 +1,450 @@
+---
+title: "Survey Analysis"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(data.table)
+library(formattable)
+library(gridExtra)
+clean_survey <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv")
+```
+
+```{r, clean data}
+#create datasets for each variable that does not include rows with missing data for that variable
+
+clean_clothes_survey <- clean_survey %>%
+  filter(clothes != "missing")
+clean_EDtranscomp_survey <- clean_survey %>%
+  filter(ED_transcomp != "missing")
+clean_clothes_trans_survey <- clean_clothes_survey %>%
+  filter(trans != "missing")
+clean_trans_survey <- clean_survey %>%
+  filter(trans != "missing")
+clean_sort_survey <- clean_survey %>%
+  filter(trans_sort != "N/A")
+clean_trans_score_survey <- clean_survey %>%
+  filter(trans_score != 0)
+clean_SO_survey <- clean_survey %>%
+  filter(SO_score != 0)
+clean_Fam_survey <- clean_survey %>%
+  filter(Fam_score != 0)
+clean_Fri_survey <- clean_survey %>%
+  filter(Fri_score != 0)
+clean_Total_survey <- clean_survey %>%
+  filter(Total_score != 0)
+clean_disc_survey <- clean_survey %>%
+  filter(disc_score != 0)
+clean_reject_survey <- clean_survey %>%
+  filter(reject_score != 0)
+clean_vict_survey <- clean_survey %>%
+  filter(vict_score != 0)
+clean_years_survey <- clean_survey %>%
+  filter(years_to_trans >= 0)
+clean_pride_survey <- clean_survey %>%
+  filter(pride != "missing")
+clean_attraction_survey <- clean_survey %>%
+  filter(attraction != "missing")
+clean_stress_survey <- clean_survey %>%
+  filter(stress != "missing")
+clean_nonaffirm_survey <- clean_survey %>%
+  filter(nonaffirm != "missing")
+```
+
+```{r, ED_BIN graphs}
+# plot possible risk and protective factors stratified by ED status
+ggplot(clean_trans_survey, aes(x=trans, fill = ED_BIN)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=trans_sort, fill = ED_BIN)) + geom_bar()
+ggplot(clean_survey, aes(x=sex, fill = ED_BIN)) + geom_bar()
+ggplot(clean_survey, aes(x=psych_BIN, fill = ED_BIN)) + geom_bar()
+ggplot(clean_pride_survey, aes(x=pride, fill = ED_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
+ggplot(clean_trans_score_survey, aes(x=ED_BIN, y=trans_score)) + geom_boxplot()
+ggplot(clean_SO_survey, aes(x=ED_BIN, y=SO_score)) + geom_boxplot()
+ggplot(clean_Fam_survey, aes(x=ED_BIN, y=Fam_score)) + geom_boxplot()
+ggplot(clean_Fri_survey, aes(x=ED_BIN, y=Fri_score)) + geom_boxplot()
+ggplot(clean_Total_survey, aes(x=ED_BIN, y=Total_score)) + geom_boxplot()
+ggplot(clean_disc_survey, aes(x=ED_BIN, y=disc_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=disc_score)) + geom_boxplot()
+ggplot(clean_reject_survey, aes(x=ED_BIN, y=reject_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=reject_score)) + geom_boxplot()
+ggplot(clean_vict_survey, aes(x=ED_BIN, y=vict_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=ED_BIN, y=vict_score)) + geom_boxplot()
+ggplot(clean_years_survey, aes(x=ED_BIN, y=years_to_trans)) + geom_boxplot()
+ggplot(clean_attraction_survey, aes(x=attraction, fill=ED_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
+```
+
+```{r, DE_BIN graphs}
+# plot possible risk and protective factors stratified by current disordered eating status
+ggplot(clean_survey, aes(x=future_affirm_BIN, fill = DE_BIN)) + geom_bar()
+ggplot(clean_trans_score_survey, aes(x=DE_BIN, y=trans_score)) + geom_boxplot()
+ggplot(clean_SO_survey, aes(x=DE_BIN, y=SO_score)) + geom_boxplot()
+ggplot(clean_Fam_survey, aes(x=DE_BIN, y=Fam_score)) + geom_boxplot()
+ggplot(clean_Fri_survey, aes(x=DE_BIN, y=Fri_score)) + geom_boxplot()
+ggplot(clean_Total_survey, aes(x=DE_BIN, y=Total_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=disc_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=reject_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=vict_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=current_disc_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=current_reject_score)) + geom_boxplot()
+ggplot(clean_survey, aes(x=DE_BIN, y=current_vict_score)) + geom_boxplot()
+ggplot(clean_years_survey, aes(x=DE_BIN, y=years_to_trans)) + geom_boxplot()
+ggplot(clean_stress_survey, aes(x=stress, fill = DE_BIN)) + geom_bar()
+ggplot(clean_nonaffirm_survey, aes(x=nonaffirm, fill = DE_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
+```
+
+```{r, function graphs}
+#plot each function of disordered eating stratified by trans(yes)/cis(no)/unsure and enby/trans-fem/trans-masc
+ggplot(clean_trans_survey, aes(x=lose_weight, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=lose_weight, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=change_shape, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=change_shape, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=increase_muscle, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=increase_muscle, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=decrease_muscle, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=decrease_muscle, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=curves_bigger, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=curves_bigger, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=curves_smaller, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=curves_smaller, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=society_weight, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=society_weight, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=society_shape, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=society_shape, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=society_gender, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=society_gender, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=attractive, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=attractive, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=weight_sport, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=weight_sport, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=body_sport, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=body_sport, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=dysphoria, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=dysphoria, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=passing_comfort, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=passing_comfort, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=passing_safety, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=passing_safety, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=no_hormones, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=no_hormones, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=no_surgery, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=no_surgery, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=no_periods, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=no_periods, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=anxiety, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=anxiety, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=depression, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=depression, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=trauma, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=trauma, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=numb_pain, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=numb_pain, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=control, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=control, fill = trans_sort)) + geom_bar()
+ggplot(clean_trans_survey, aes(x=compulsion, fill = trans)) + geom_bar()
+ggplot(clean_sort_survey, aes(x=compulsion, fill = trans_sort)) + geom_bar()
+```
+```{r, functions proportions}
+#calculate what proportion of the trans/enby community marked each function
+
+lose_weight_prop <- clean_survey %>%
+  group_by(trans, lose_weight) %>%
+  summarise(n = n()) %>%
+  mutate(lose_weight_prop = (n)/sum(n))
+lose_weight_prop
+
+change_shape_prop <- clean_survey %>%
+  group_by(trans, change_shape) %>%
+  summarise(n = n()) %>%
+  mutate(change_shape_prop = (n)/sum(n))
+change_shape_prop
+
+increase_muscle_prop <- clean_survey %>%
+  group_by(trans, increase_muscle) %>%
+  summarise(n = n()) %>%
+  mutate(increase_muscle_prop = (n)/sum(n))
+increase_muscle_prop
+
+decrease_muscle_prop <- clean_survey %>%
+  group_by(trans, decrease_muscle) %>%
+  summarise(n = n()) %>%
+  mutate(decrease_muscle_prop = (n)/sum(n))
+decrease_muscle_prop
+  
+curves_bigger_prop <- clean_survey %>%
+  group_by(trans, curves_bigger) %>%
+  summarise(n = n()) %>%
+  mutate(curves_bigger_prop = (n)/sum(n))
+curves_bigger_prop
+
+curves_smaller_prop <- clean_survey %>%
+  group_by(trans, curves_smaller) %>%
+  summarise(n = n()) %>%
+  mutate(curves_smaller_prop = (n)/sum(n))
+curves_smaller_prop
+
+society_weight_prop <- clean_survey %>%
+  group_by(trans, society_weight) %>%
+  summarise(n = n()) %>%
+  mutate(society_weight_prop = (n)/sum(n))
+society_weight_prop
+
+society_shape_prop <- clean_survey %>%
+  group_by(trans, society_shape) %>%
+  summarise(n = n()) %>%
+  mutate(society_shape_prop = (n)/sum(n))
+society_shape_prop
+  
+society_gender_prop <- clean_survey %>%
+  group_by(trans, society_gender) %>%
+  summarise(n = n()) %>%
+  mutate(society_gender_prop = (n)/sum(n))
+society_gender_prop
+  
+attractive_prop <- clean_survey %>%
+  group_by(trans, attractive) %>%
+  summarise(n = n()) %>%
+  mutate(attractive_prop = (n)/sum(n))
+attractive_prop
+  
+weight_sport_prop <- clean_survey %>%
+  group_by(trans, weight_sport) %>%
+  summarise(n = n()) %>%
+  mutate(weight_sport_prop = (n)/sum(n))
+weight_sport_prop
+  
+body_sport_prop <- clean_survey %>%
+  group_by(trans, body_sport) %>%
+  summarise(n = n()) %>%
+  mutate(body_sport_prop = (n)/sum(n))
+body_sport_prop
+
+dysphoria_prop <- clean_survey %>%
+  group_by(trans, dysphoria) %>%
+  summarise(n = n()) %>%
+  mutate(dysphoria_prop = (n)/sum(n))
+dysphoria_prop
+  
+passing_comfort_prop <- clean_survey %>%
+  group_by(trans, passing_comfort) %>%
+  summarise(n = n()) %>%
+  mutate(passing_comfort_prop = (n)/sum(n))
+passing_comfort_prop
+
+passing_safety_prop <- clean_survey %>%
+  group_by(trans, passing_safety) %>%
+  summarise(n = n()) %>%
+  mutate(passing_safety_prop = (n)/sum(n))
+passing_safety_prop
+  
+no_hormones_prop <- clean_survey %>%
+  group_by(trans, no_hormones) %>%
+  summarise(n = n()) %>%
+  mutate(no_hormones_prop = (n)/sum(n))
+no_hormones_prop
+  
+no_surgery_prop <- clean_survey %>%
+  group_by(trans, no_surgery) %>%
+  summarise(n = n()) %>%
+  mutate(no_surgery_prop = (n)/sum(n))
+no_surgery_prop
+  
+no_periods_prop <- clean_survey %>%
+  group_by(trans, no_periods) %>%
+  summarise(n = n()) %>%
+  mutate(no_periods_prop = (n)/sum(n))
+no_periods_prop
+  
+anxiety_prop <- clean_survey %>%
+  group_by(trans, anxiety) %>%
+  summarise(n = n()) %>%
+  mutate(anxiety_prop = (n)/sum(n))
+anxiety_prop
+  
+depression_prop <- clean_survey %>%
+  group_by(trans, depression) %>%
+  summarise(n = n()) %>%
+  mutate(depression_prop = (n)/sum(n))
+depression_prop
+  
+trauma_prop <- clean_survey %>%
+  group_by(trans, trauma) %>%
+  summarise(n = n()) %>%
+  mutate(trauma_prop = (n)/sum(n))
+trauma_prop
+  
+numb_pain_prop <- clean_survey %>%
+  group_by(trans, numb_pain) %>%
+  summarise(n = n()) %>%
+  mutate(numb_pain_prop = (n)/sum(n))
+numb_pain_prop
+
+control_prop <- clean_survey %>%
+  group_by(trans, control) %>%
+  summarise(n = n()) %>%
+  mutate(control_prop = (n)/sum(n))
+control_prop
+  
+compulsion_prop <- clean_survey %>%
+  group_by(trans, compulsion) %>%
+  summarise(n = n()) %>%
+  mutate(compulsion_prop = (n)/sum(n))
+compulsion_prop
+
+increase_muscle_sort_prop <- clean_sort_survey %>%
+  group_by(trans_sort, increase_muscle) %>%
+  summarise(n = n()) %>%
+  mutate(increase_muscle_prop = (n)/sum(n))
+increase_muscle_sort_prop
+
+curves_smaller_sort_prop <- clean_sort_survey %>%
+  group_by(trans_sort, curves_smaller) %>%
+  summarise(n = n()) %>%
+  mutate(curves_smaller_prop = (n)/sum(n))
+curves_smaller_sort_prop
+
+passing_safety_sort_prop <- clean_sort_survey %>%
+  group_by(trans_sort, passing_safety) %>%
+  summarise(n = n()) %>%
+  mutate(passing_safety_prop = (n)/sum(n))
+passing_safety_sort_prop
+```
+
+```{r, ed dx, ed self-id}
+#plot pie charts of the proportions of each eating disorder within the cis/trans/unsure communities
+
+ed_dx_id <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/ed_dx_id.csv")
+
+ed_dx_id
+
+ggplot(ed_dx_id, aes(x="", y=cis_ed_dx_value, fill=cis_ed_dx)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=unsure_ed_dx_value, fill=unsure_ed_dx)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=trans_ed_dx_value, fill=trans_ed_dx)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=cis_ed_id_value, fill=cis_ed_id)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=unsure_ed_id_value, fill=unsure_ed_id)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+
+ggplot(ed_dx_id, aes(x="", y=trans_ed_id_value, fill=trans_ed_id)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + theme_void()
+```
+
+```{r, ed dx id counts}
+#find the counts and proportions for each eating disorder within each community
+
+cis_ed_dx <- ed_dx_id %>%
+  mutate(cis_ed_dx_prop = cis_ed_dx_value/sum(ed_dx_id[1:9, 2])) %>%
+  group_by(cis_ed_dx, cis_ed_dx_prop) %>%
+  summarize()
+
+cis_ed_dx
+
+unsure_ed_dx <- ed_dx_id %>%
+  mutate(unsure_ed_dx_prop = unsure_ed_dx_value/sum(ed_dx_id[1:9, 4])) %>%
+  group_by(unsure_ed_dx, unsure_ed_dx_prop) %>%
+  summarize()
+
+trans_ed_dx <- ed_dx_id %>%
+  mutate(trans_ed_dx_prop = trans_ed_dx_value/sum(ed_dx_id[1:9, 6])) %>%
+  group_by(trans_ed_dx, trans_ed_dx_prop) %>%
+  summarize()
+
+trans_ed_dx
+
+cis_ed_id <- ed_dx_id %>%
+  mutate(cis_ed_id_prop = cis_ed_id_value/sum(ed_dx_id[1:9, 8])) %>%
+  group_by(cis_ed_id, cis_ed_id_prop) %>%
+  summarize()
+
+cis_ed_id
+
+unsure_ed_id <- ed_dx_id %>%
+  mutate(unsure_ed_id_prop = unsure_ed_id_value/sum(ed_dx_id[1:9, 10])) %>%
+  group_by(unsure_ed_id, unsure_ed_id_prop) %>%
+  summarize()
+
+trans_ed_id <- ed_dx_id %>%
+  mutate(trans_ed_id_prop = trans_ed_id_value/sum(ed_dx_id[1:9, 12])) %>%
+  group_by(trans_ed_id, trans_ed_id_prop) %>%
+  summarize()
+
+trans_ed_id
+```
+```{r, demographics}
+#get the counts for basic demographic information
+
+total_count <- clean_survey %>%
+  select(ResponseId) %>%
+  tally()
+total_count
+
+trans_count <- clean_trans_survey %>%
+  group_by(trans, ED_BIN) %>%
+  summarise(n = n())
+trans_count
+
+age <- clean_survey %>%
+  group_by(age) %>%
+  summarise(n = n())
+age
+
+class <- clean_survey %>%
+  group_by(class) %>%
+  summarise(n = n())
+class
+
+sex <- clean_survey %>%
+  group_by(sex) %>%
+  summarise(n = n())
+sex
+
+race <- clean_survey %>%
+  group_by(race) %>%
+  summarise(n = n())
+race
+```
+```{r, other}
+#plot and get the counts for data that doesn't fit into any other category
+
+ggplot(clean_clothes_survey, aes(x=clothes, fill = ED_BIN)) + geom_bar()
+
+ggplot(clean_EDtranscomp_survey, aes(x=ED_transcomp)) + geom_bar()+ theme(axis.text.x=element_text(angle = -90, hjust = 0))
+
+ggplot(clean_clothes_trans_survey, aes(x=clothes, fill = trans)) + geom_bar()
+
+clothes_proportions <- clean_clothes_survey %>%
+  group_by(clothes) %>%
+  summarise(n = n()) %>%
+  mutate(clothes_prop = (n)/sum(n))
+
+clothes_proportions
+
+non_med_reasons <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/non_med_reasons.csv")
+
+non_med_prop <- non_med_reasons %>%
+  group_by(reasons, values) %>%
+  mutate(values_prop = (values)/198)
+non_med_prop
+```
+
+
+
+
