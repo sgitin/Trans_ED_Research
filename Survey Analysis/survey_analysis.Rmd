@@ -15,30 +15,16 @@ library(formattable)
 library(gridExtra)
 clean_survey <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/cleaned_survey.csv")
 ```
-```{r, other}
+
+```{r, clean data}
+#create datasets for each variable that does not include rows with missing data for that variable
+
 clean_clothes_survey <- clean_survey %>%
   filter(clothes != "missing")
 clean_EDtranscomp_survey <- clean_survey %>%
   filter(ED_transcomp != "missing")
 clean_clothes_trans_survey <- clean_clothes_survey %>%
   filter(trans != "missing")
-
-ggplot(clean_clothes_survey, aes(x=clothes, fill = ED_BIN)) + geom_bar()
-ggplot(clean_EDtranscomp_survey, aes(x=ED_transcomp)) + geom_bar()+ theme(axis.text.x=element_text(angle = -90, hjust = 0))
-
-ggplot(clean_clothes_trans_survey, aes(x=clothes, fill = trans)) + geom_bar()
-
-clothes_proportions <- clean_clothes_survey %>%
-  group_by(clothes) %>%
-  summarise(n = n()) %>%
-  mutate(clothes_prop = (n)/sum(n))
-
-clothes_proportions
-
-```
-
-
-```{r, ED_BIN graphs}
 clean_trans_survey <- clean_survey %>%
   filter(trans != "missing")
 clean_sort_survey <- clean_survey %>%
@@ -65,18 +51,15 @@ clean_pride_survey <- clean_survey %>%
   filter(pride != "missing")
 clean_attraction_survey <- clean_survey %>%
   filter(attraction != "missing")
+clean_stress_survey <- clean_survey %>%
+  filter(stress != "missing")
+clean_nonaffirm_survey <- clean_survey %>%
+  filter(nonaffirm != "missing")
+```
 
-total_count <- clean_survey %>%
-  select(ResponseId) %>%
-  tally()
-total_count
-
+```{r, ED_BIN graphs}
+# plot possible risk and protective factors stratified by ED status
 ggplot(clean_trans_survey, aes(x=trans, fill = ED_BIN)) + geom_bar()
-trans_count <- clean_trans_survey %>%
-  group_by(trans, ED_BIN) %>%
-  summarise(n = n())
-trans_count
-
 ggplot(clean_sort_survey, aes(x=trans_sort, fill = ED_BIN)) + geom_bar()
 ggplot(clean_survey, aes(x=sex, fill = ED_BIN)) + geom_bar()
 ggplot(clean_survey, aes(x=psych_BIN, fill = ED_BIN)) + geom_bar()
@@ -93,16 +76,11 @@ ggplot(clean_survey, aes(x=ED_BIN, y=reject_score)) + geom_boxplot()
 ggplot(clean_vict_survey, aes(x=ED_BIN, y=vict_score)) + geom_boxplot()
 ggplot(clean_survey, aes(x=ED_BIN, y=vict_score)) + geom_boxplot()
 ggplot(clean_years_survey, aes(x=ED_BIN, y=years_to_trans)) + geom_boxplot()
-
 ggplot(clean_attraction_survey, aes(x=attraction, fill=ED_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
 ```
 
 ```{r, DE_BIN graphs}
-clean_stress_survey <- clean_survey %>%
-  filter(stress != "missing")
-clean_nonaffirm_survey <- clean_survey %>%
-  filter(nonaffirm != "missing")
-
+# plot possible risk and protective factors stratified by current disordered eating status
 ggplot(clean_survey, aes(x=future_affirm_BIN, fill = DE_BIN)) + geom_bar()
 ggplot(clean_trans_score_survey, aes(x=DE_BIN, y=trans_score)) + geom_boxplot()
 ggplot(clean_SO_survey, aes(x=DE_BIN, y=SO_score)) + geom_boxplot()
@@ -118,12 +96,10 @@ ggplot(clean_survey, aes(x=DE_BIN, y=current_vict_score)) + geom_boxplot()
 ggplot(clean_years_survey, aes(x=DE_BIN, y=years_to_trans)) + geom_boxplot()
 ggplot(clean_stress_survey, aes(x=stress, fill = DE_BIN)) + geom_bar()
 ggplot(clean_nonaffirm_survey, aes(x=nonaffirm, fill = DE_BIN)) + geom_bar() + theme(axis.text.x=element_text(angle = -90, hjust = 0))
-
-
 ```
 
 ```{r, function graphs}
-#each func by trans y/n and enby/fem/masc
+#plot each function of disordered eating stratified by trans(yes)/cis(no)/unsure and enby/trans-fem/trans-masc
 ggplot(clean_trans_survey, aes(x=lose_weight, fill = trans)) + geom_bar()
 ggplot(clean_sort_survey, aes(x=lose_weight, fill = trans_sort)) + geom_bar()
 ggplot(clean_trans_survey, aes(x=change_shape, fill = trans)) + geom_bar()
@@ -172,13 +148,10 @@ ggplot(clean_trans_survey, aes(x=control, fill = trans)) + geom_bar()
 ggplot(clean_sort_survey, aes(x=control, fill = trans_sort)) + geom_bar()
 ggplot(clean_trans_survey, aes(x=compulsion, fill = trans)) + geom_bar()
 ggplot(clean_sort_survey, aes(x=compulsion, fill = trans_sort)) + geom_bar()
-
-
-
-
-
 ```
-```{r, functions counts}
+```{r, functions proportions}
+#calculate what proportion of the trans/enby community marked each function
+
 lose_weight_prop <- clean_survey %>%
   group_by(trans, lose_weight) %>%
   summarise(n = n()) %>%
@@ -340,11 +313,11 @@ passing_safety_sort_prop <- clean_sort_survey %>%
   summarise(n = n()) %>%
   mutate(passing_safety_prop = (n)/sum(n))
 passing_safety_sort_prop
-
-
 ```
 
 ```{r, ed dx, ed self-id}
+#plot pie charts of the proportions of each eating disorder within the cis/trans/unsure communities
+
 ed_dx_id <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/ed_dx_id.csv")
 
 ed_dx_id
@@ -372,10 +345,11 @@ ggplot(ed_dx_id, aes(x="", y=unsure_ed_id_value, fill=unsure_ed_id)) +
 ggplot(ed_dx_id, aes(x="", y=trans_ed_id_value, fill=trans_ed_id)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) + theme_void()
-
-
 ```
-```{r}
+
+```{r, ed dx id counts}
+#find the counts and proportions for each eating disorder within each community
+
 cis_ed_dx <- ed_dx_id %>%
   mutate(cis_ed_dx_prop = cis_ed_dx_value/sum(ed_dx_id[1:9, 2])) %>%
   group_by(cis_ed_dx, cis_ed_dx_prop) %>%
@@ -413,9 +387,20 @@ trans_ed_id <- ed_dx_id %>%
   summarize()
 
 trans_ed_id
-
 ```
 ```{r, demographics}
+#get the counts for basic demographic information
+
+total_count <- clean_survey %>%
+  select(ResponseId) %>%
+  tally()
+total_count
+
+trans_count <- clean_trans_survey %>%
+  group_by(trans, ED_BIN) %>%
+  summarise(n = n())
+trans_count
+
 age <- clean_survey %>%
   group_by(age) %>%
   summarise(n = n())
@@ -435,6 +420,22 @@ race <- clean_survey %>%
   group_by(race) %>%
   summarise(n = n())
 race
+```
+```{r, other}
+#plot and get the counts for data that doesn't fit into any other category
+
+ggplot(clean_clothes_survey, aes(x=clothes, fill = ED_BIN)) + geom_bar()
+
+ggplot(clean_EDtranscomp_survey, aes(x=ED_transcomp)) + geom_bar()+ theme(axis.text.x=element_text(angle = -90, hjust = 0))
+
+ggplot(clean_clothes_trans_survey, aes(x=clothes, fill = trans)) + geom_bar()
+
+clothes_proportions <- clean_clothes_survey %>%
+  group_by(clothes) %>%
+  summarise(n = n()) %>%
+  mutate(clothes_prop = (n)/sum(n))
+
+clothes_proportions
 ```
 
 
