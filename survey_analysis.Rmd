@@ -67,6 +67,11 @@ clean_attraction_survey <- clean_survey %>%
   filter(attraction != "missing")
 
 ggplot(clean_trans_survey, aes(x=trans, fill = ED_BIN)) + geom_bar()
+trans_count <- clean_trans_survey %>%
+  group_by(trans, ED_BIN) %>%
+  summarise(n = n())
+trans_count
+
 ggplot(clean_sort_survey, aes(x=trans_sort, fill = ED_BIN)) + geom_bar()
 ggplot(clean_survey, aes(x=sex, fill = ED_BIN)) + geom_bar()
 ggplot(clean_survey, aes(x=psych_BIN, fill = ED_BIN)) + geom_bar()
