@@ -66,7 +66,17 @@ clean_pride_survey <- clean_survey %>%
 clean_attraction_survey <- clean_survey %>%
   filter(attraction != "missing")
 
+total_count <- clean_survey %>%
+  select(ResponseId) %>%
+  tally()
+total_count
+
 ggplot(clean_trans_survey, aes(x=trans, fill = ED_BIN)) + geom_bar()
+trans_count <- clean_trans_survey %>%
+  group_by(trans, ED_BIN) %>%
+  summarise(n = n())
+trans_count
+
 ggplot(clean_sort_survey, aes(x=trans_sort, fill = ED_BIN)) + geom_bar()
 ggplot(clean_survey, aes(x=sex, fill = ED_BIN)) + geom_bar()
 ggplot(clean_survey, aes(x=psych_BIN, fill = ED_BIN)) + geom_bar()
@@ -336,6 +346,8 @@ passing_safety_sort_prop
 
 ```{r, ed dx, ed self-id}
 ed_dx_id <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/ed_dx_id.csv")
+
+ed_dx_id
 
 ggplot(ed_dx_id, aes(x="", y=cis_ed_dx_value, fill=cis_ed_dx)) +
   geom_bar(stat="identity", width=1) +
