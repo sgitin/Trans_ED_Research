@@ -1,6 +1,6 @@
 # Trans_ED_Research
 
-This specific study focuses on eating disorders in the trans community, but the code can be modified for any topic of interest. The folder of code marked "Forum Analysis" is used to scrape posts from reddit and analyze them using latent dirichlet allocation probabilistic topic modeling.  The folder marked "Survey Analysis" is used to conduct an exploratory data analysis of the data from the survey questionnaire in the folder and then conduct hypothesis tests on the measures that appeared statistically significant.
+This specific study focuses on eating disorders in the trans community, but the code can be modified for any topic of interest. The folder of code marked "Forum_Analysis" is used to scrape posts from reddit and analyze them using latent dirichlet allocation probabilistic topic modeling.  The folder marked "Survey_Analysis" is used to conduct an exploratory data analysis of the data from the survey questionnaire in the folder and then conduct hypothesis tests on the measures that appeared statistically significant.
 
 * exploratory_lda.Rmd  -- this is R code to conduct the LDA analysis using the lda package
 * exploratory_lda.pdf  -- this is a pdf of the LDA code and tables of the results
