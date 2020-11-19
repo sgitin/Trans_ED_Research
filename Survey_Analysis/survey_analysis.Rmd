@@ -439,10 +439,7 @@ clothes_proportions
 
 non_med_reasons <- read_csv("~/Documents/Trans_ED_Research/Trans ED Research/non_med_reasons.csv")
 
-non_med_prop <- non_med_reasons %>%
-  group_by(reasons, values) %>%
-  mutate(values_prop = (values)/198)
-non_med_prop
+non_med_reasons
 ```
 
 
