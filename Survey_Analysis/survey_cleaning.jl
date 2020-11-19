@@ -898,79 +898,69 @@ non_med_reasons_df.enby_values = [0,0,0,0,0,0,0,0,0,0]
 for row in 1:length(ED_bin_df[!, 29])
     if occursin("Don’t have access to prescription hormones because you don’t have a supportive doctor", ED_bin_df[row, 29])
         non_med_reasons_df[1, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Don’t have access to prescription hormones because you don’t have a supportive doctor", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[1, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Don’t have access to prescription hormones for financial reasons", ED_bin_df[row, 29])
         non_med_reasons_df[2, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Don’t have access to prescription hormones for financial reasons", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[2, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Hormones cause unwanted side effects (such as hair loss or weight gain)", ED_bin_df[row, 29])
         non_med_reasons_df[3, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Hormones cause unwanted side effects (such as hair loss or weight gain)", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[3, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Only wanting some of the effects caused by hormones, not all them (For example, wanting the body fat redistribution caused by testosterone but not wanting the voice change caused by testosterone)", ED_bin_df[row, 29])
         non_med_reasons_df[4, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Only wanting some of the effects caused by hormones, not all them (For example, wanting the body fat redistribution caused by testosterone but not wanting the voice change caused by testosterone)", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[4, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Prescription hormones aren’t working fast enough", ED_bin_df[row, 29])
         non_med_reasons_df[5, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Prescription hormones aren’t working fast enough", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[5, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Don’t have access to affirmative surgery because you don’t have a supportive doctor", ED_bin_df[row, 29])
         non_med_reasons_df[6, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Don’t have access to affirmative surgery because you don’t have a supportive doctor", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[6, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Don’t have access to affirmative surgery because of financial reasons", ED_bin_df[row, 29])
         non_med_reasons_df[7, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Don’t have access to affirmative surgery because of financial reasons", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[7, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Surgery recovery is incompatible with work or school", ED_bin_df[row, 29])
         non_med_reasons_df[8, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Surgery recovery is incompatible with work or school", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[8, 3] += 1
-        non_med_reasons_df[10, 3] += 1
     end
     if occursin("Other", ED_bin_df[row, 29])
         non_med_reasons_df[9, 2] += 1
-        non_med_reasons_df[10, 2] += 1
     end
     if occursin("Other", ED_bin_df[row, 29]) && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[9, 3] += 1
+    end 
+    if ED_bin_df[row, 29] != "missing"
+        non_med_reasons_df[10, 2] += 1
+    end
+    if ED_bin_df[row, 29] != "missing" && ED_bin_df[row, 78] == "yes"
         non_med_reasons_df[10, 3] += 1
     end
 end
 
-non_med_reasons_df.enby_prop = [non_med_reasons_df.enby_values[1]/non_med_reasons_df.values[1],non_med_reasons_df.enby_values[2]/non_med_reasons_df.values[2],non_med_reasons_df.enby_values[3]/non_med_reasons_df.values[3],non_med_reasons_df.enby_values[4]/non_med_reasons_df.values[4],non_med_reasons_df.enby_values[5]/non_med_reasons_df.values[5],non_med_reasons_df.enby_values[6]/non_med_reasons_df.values[6],non_med_reasons_df.enby_values[7]/non_med_reasons_df.values[7],non_med_reasons_df.enby_values[8]/non_med_reasons_df.values[8],non_med_reasons_df.enby_values[9]/non_med_reasons_df.values[9], non_med_reasons_df.enby_values[10]/non_med_reasons_df.values[10]]
+non_med_reasons_df.reason_prop = [non_med_reasons_df.values[1]/non_med_reasons_df.values[10],non_med_reasons_df.values[2]/non_med_reasons_df.values[10],non_med_reasons_df.values[3]/non_med_reasons_df.values[10],non_med_reasons_df.values[4]/non_med_reasons_df.values[10],non_med_reasons_df.values[5]/non_med_reasons_df.values[10],non_med_reasons_df.values[6]/non_med_reasons_df.values[10],non_med_reasons_df.values[7]/non_med_reasons_df.values[10],non_med_reasons_df.values[8]/non_med_reasons_df.values[10],non_med_reasons_df.values[9]/non_med_reasons_df.values[10], non_med_reasons_df.values[10]/non_med_reasons_df.values[10]]
+
+non_med_reasons_df.enby_prop = [non_med_reasons_df.enby_values[1]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[2]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[3]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[4]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[5]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[6]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[7]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[8]/non_med_reasons_df.enby_values[10],non_med_reasons_df.enby_values[9]/non_med_reasons_df.enby_values[10], non_med_reasons_df.enby_values[10]/non_med_reasons_df.enby_values[10]]
 
 # put non med reasons dataframe into a csv for stats analysis
 CSV.write("/Users/Sy/Documents/Trans_ED_Research/Trans ED Research/non_med_reasons.csv", non_med_reasons_df)
